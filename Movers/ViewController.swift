@@ -108,12 +108,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         print("will appear")
-/*
-        healthHandler.loadWeights() { weights in
-            self.weights = weights
-            self.redraw()
-        }
-*/
     }
     
     // needs animation
@@ -153,8 +147,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
 
     func buttonPressed() {
-        healthHandler.saveWeight(NSDate(), weight: Double(weightLabel.text!)!)  // what is this sorcery?
-        // feedTableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+        let adddate = NSDate()
+        let addweight = Double(weightLabel.text!)! // what is this sorcery?
+        
+        weights.append(["date": adddate, "weight": addweight])
+        healthHandler.saveWeight(adddate, weight: addweight)
+        feedTableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
     }
 
     // Conforming to UITableViewDataSource
@@ -169,9 +167,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     // Conforming to UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("feedcell", forIndexPath: indexPath) as! FeedTableViewCell
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("feedcell") as! FeedTableViewCell
         let row = weights.count - indexPath.row - 1
+        
         cell.dateLabel.text = dateString((weights[row]["date"] as? NSDate)!)
         cell.weightLabel.text = String(format: "%.1f", (weights[row]["weight"] as? Double)!)
         

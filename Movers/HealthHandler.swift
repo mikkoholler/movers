@@ -39,18 +39,29 @@ class HealthHandler {
     }
     
     func saveWeight(date:NSDate, weight:Double) {
-        print("Save weight")
+        print("saving weight")
+        
+        let type = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!
+        let quantity = HKQuantity(unit: HKUnit.gramUnitWithMetricPrefix(.Kilo), doubleValue: weight)
+        let sample = HKQuantitySample(type: type, quantity: quantity, startDate: date, endDate: date)
+ 
+        healthKitStore.saveObject(sample, withCompletion: { (success, error) -> Void in
+            if (error != nil) {
+                print("Error saving")
+            } else {
+                print("Sample saved")
+            }
+        })
+  
     }
     
     func loadWeights(completion: ([[String:AnyObject]]) -> ()) {
         
-        // The type of data we are requesting (this is redundant and could probably be an enumeration
         let type = HKSampleType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)
 
-        // Our search predicate which will fetch data from now until a day ago
+        // get weights from last month (2592000 in seconds)
         let predicate = HKQuery.predicateForSamplesWithStartDate(NSDate(timeIntervalSinceNow:-2592000), endDate: NSDate(), options: .None)
 
-        // The actual HealthKit Query which will fetch all of the steps and sub them up for us.
         let query = HKSampleQuery(sampleType: type!, predicate: predicate, limit: 0, sortDescriptors: nil) { query, results, error in
             print("getting results")
             var weights:[[String:AnyObject]] = Array()
