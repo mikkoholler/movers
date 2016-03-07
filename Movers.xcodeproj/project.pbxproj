@@ -13,7 +13,6 @@
 		0DA1E94C1C843DD3008A06CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0DA1E94B1C843DD3008A06CD /* Assets.xcassets */; };
 		0DA1E94F1C843DD3008A06CD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DA1E94D1C843DD3008A06CD /* LaunchScreen.storyboard */; };
 		0DA1E9571C85813A008A06CD /* Weight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1E9561C85813A008A06CD /* Weight.swift */; };
-		0DA1E9591C85829F008A06CD /* WeightHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1E9581C85829F008A06CD /* WeightHandler.swift */; };
 		0DA1E95D1C861729008A06CD /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1E95C1C861729008A06CD /* FeedTableViewCell.swift */; };
 		0DA1E95F1C86F2CB008A06CD /* HealthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1E95E1C86F2CB008A06CD /* HealthHandler.swift */; };
 		0DA1E9641C897D4E008A06CD /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA1E9631C897D4E008A06CD /* HealthKit.framework */; };
@@ -28,7 +27,6 @@
 		0DA1E94E1C843DD3008A06CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0DA1E9501C843DD3008A06CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0DA1E9561C85813A008A06CD /* Weight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weight.swift; sourceTree = "<group>"; };
-		0DA1E9581C85829F008A06CD /* WeightHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightHandler.swift; sourceTree = "<group>"; };
 		0DA1E95C1C861729008A06CD /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		0DA1E95E1C86F2CB008A06CD /* HealthHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthHandler.swift; sourceTree = "<group>"; };
 		0DA1E9601C872617008A06CD /* Movers.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Movers.entitlements; sourceTree = "<group>"; };
@@ -72,7 +70,6 @@
 				0DA1E9461C843DD3008A06CD /* ViewController.swift */,
 				0DA1E95C1C861729008A06CD /* FeedTableViewCell.swift */,
 				0DA1E95E1C86F2CB008A06CD /* HealthHandler.swift */,
-				0DA1E9581C85829F008A06CD /* WeightHandler.swift */,
 				0DA1E9561C85813A008A06CD /* Weight.swift */,
 				0DA1E9481C843DD3008A06CD /* Main.storyboard */,
 				0DA1E94B1C843DD3008A06CD /* Assets.xcassets */,
@@ -160,7 +157,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DA1E95F1C86F2CB008A06CD /* HealthHandler.swift in Sources */,
-				0DA1E9591C85829F008A06CD /* WeightHandler.swift in Sources */,
 				0DA1E9471C843DD3008A06CD /* ViewController.swift in Sources */,
 				0DA1E9451C843DD3008A06CD /* AppDelegate.swift in Sources */,
 				0DA1E9571C85813A008A06CD /* Weight.swift in Sources */,
@@ -320,6 +316,7 @@
 				0DA1E9551C843DD3008A06CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

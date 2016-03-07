@@ -166,7 +166,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     // Conforming to UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("feedcell") as! FeedTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("feedcell") as! FeedTableViewCell        // could also be done without reuse
         let row = weights.count - indexPath.row - 1
         
         cell.dateLabel.text = dateString((weights[row]["date"] as? NSDate)!)

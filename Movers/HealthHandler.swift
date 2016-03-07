@@ -47,9 +47,8 @@ class HealthHandler {
         healthKitStore.saveObject(sample, withCompletion: { (success, error) -> Void in
             if (error != nil) {
                 print("Error saving")
-            } 
+            }
         })
-  
     }
     
     func loadWeights(completion: ([[String:AnyObject]]) -> ()) {
