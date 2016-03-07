@@ -47,9 +47,7 @@ class HealthHandler {
         healthKitStore.saveObject(sample, withCompletion: { (success, error) -> Void in
             if (error != nil) {
                 print("Error saving")
-            } else {
-                print("Sample saved")
-            }
+            } 
         })
   
     }
@@ -62,7 +60,6 @@ class HealthHandler {
         let predicate = HKQuery.predicateForSamplesWithStartDate(NSDate(timeIntervalSinceNow:-2592000), endDate: NSDate(), options: .None)
 
         let query = HKSampleQuery(sampleType: type!, predicate: predicate, limit: 0, sortDescriptors: nil) { query, results, error in
-            print("getting results")
             var weights:[[String:AnyObject]] = Array()
 
             if results?.count > 0 {
@@ -70,7 +67,6 @@ class HealthHandler {
                     let date = result.startDate
                     let weight = result.quantity.doubleValueForUnit(HKUnit.gramUnitWithMetricPrefix(.Kilo))
                     weights.append(["date": date, "weight": weight])
-                    print(weight)
                 }
             }
             

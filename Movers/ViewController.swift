@@ -94,25 +94,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         feedTableView.heightAnchor.constraintEqualToConstant(1000).active = true
 
         healthHandler.authorizeHealthKit()
-        
-        print("did load")
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        print("will appear")
-
-        getData()
-
      }
 
     override func viewDidAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        print("did appear")
-
     }
     
-
     func getData() {
         healthHandler.loadWeights() { weights in
             self.weights = weights
@@ -122,8 +113,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // needs animation
     func showData() {
-        print("redarwing")
-   
         if (weights.count > 0) {
             weight = weights[weights.count-1]["weight"] as! Double
             weightLabel.text = String(format:"%.1f", weight)
