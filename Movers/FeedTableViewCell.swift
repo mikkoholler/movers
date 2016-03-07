@@ -22,7 +22,7 @@ class FeedTableViewCell: UITableViewCell {
         contentView.addSubview(separator)
         
         // style
-        dateLabel.font = weightLabel.font.fontWithSize(14)
+        dateLabel.font = weightLabel.font.fontWithSize(12)
         weightLabel.font = weightLabel.font.fontWithSize(24)
         separator.backgroundColor = UIColor.lightGrayColor()
 

@@ -18,7 +18,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     var weight = 75.0
     var priorPoint = CGPoint()
-    var weights:[[String:AnyObject]] = Array()
+    var weights:[Weight] = Array()
+    var logWeightEnabled = true
     
     var healthHandler = HealthHandler()
     
@@ -114,42 +115,75 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // needs animation
     func showData() {
         if (weights.count > 0) {
-            weight = weights[weights.count-1]["weight"] as! Double
+            weight = weights[0].kg
             weightLabel.text = String(format:"%.1f", weight)
             feedTableView.reloadData()
+            
+            if (isToday(weights[0].date)) {
+                print("weight exists for today")
+                disableToday()
+            } else {
+                enableToday()
+            }
         }
     }
     
-    func longPressed(sender: UILongPressGestureRecognizer) {
-        
-        let point = sender.locationInView(view)
-        let diff = priorPoint.y - point.y
+    func isToday(date: NSDate) -> Bool{
+        var isOK = false
+        let calendar = NSCalendar.currentCalendar()
+        let dateComponents = calendar.components([NSCalendarUnit.Day, NSCalendarUnit.Month, NSCalendarUnit.Year], fromDate: date)
+        let todayComponents = calendar.components([NSCalendarUnit.Day, NSCalendarUnit.Month, NSCalendarUnit.Year], fromDate: NSDate())
 
-        if (sender.state == UIGestureRecognizerState.Began) {
-            priorPoint = point;
-            weightLabel.textColor = UIColor.lightGrayColor()
+        if (dateComponents.year == todayComponents.year && dateComponents.month == todayComponents.month && dateComponents.day == todayComponents.day) {
+            isOK = true
+        }
+
+        return isOK
+    }
+    
+    func disableToday() {
+        weightTextLabel.text = "Today's weight"
+        weightButton.hidden = true
+        logWeightEnabled = true
+    }
+    
+    func enableToday() {
+        weightTextLabel.text = "Enter today's weight"
+        weightButton.hidden = false
+        logWeightEnabled = false
+    }
+    
+    func longPressed(sender: UILongPressGestureRecognizer) {
+        if (logWeightEnabled) {
+            let point = sender.locationInView(view)
+            let diff = priorPoint.y - point.y
+
+            if (sender.state == UIGestureRecognizerState.Began) {
+                priorPoint = point;
+                weightLabel.textColor = UIColor.lightGrayColor()
             
-        } else if (sender.state == UIGestureRecognizerState.Changed) {
-            if (diff < -5) {
-                weight -= 0.1;
-                priorPoint = point;
-            } else if (diff > 5) {
-                weight += 0.1;
-                priorPoint = point;
+            } else if (sender.state == UIGestureRecognizerState.Changed) {
+                if (diff < -5) {
+                    weight -= 0.1;
+                    priorPoint = point;
+                } else if (diff > 5) {
+                    weight += 0.1;
+                    priorPoint = point;
+                }
+                weightLabel.text = String(format:"%.1f", weight);
+            
+            } else if (sender.state == UIGestureRecognizerState.Ended) {
+                weightLabel.textColor = UIColor.blackColor()
             }
-            weightLabel.text = String(format:"%.1f", weight);
-            
-        } else if (sender.state == UIGestureRecognizerState.Ended) {
-            weightLabel.textColor = UIColor.blackColor()
         }
     }
 
 
     func buttonPressed() {
         let adddate = NSDate()
-        let addweight = Double(weightLabel.text!)! // what is this sorcery?
+        let addweight = Double(weightLabel.text!)!              // what is this sorcery?
         
-        weights.append(["date": adddate, "weight": addweight])
+        weights.insert(Weight(date: adddate, kg: addweight), atIndex: 0)
         healthHandler.saveWeight(adddate, weight: addweight)
         feedTableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
     }
@@ -167,10 +201,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // Conforming to UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("feedcell") as! FeedTableViewCell        // could also be done without reuse
-        let row = weights.count - indexPath.row - 1
+        let row = indexPath.row
         
-        cell.dateLabel.text = dateString((weights[row]["date"] as? NSDate)!)
-        cell.weightLabel.text = String(format: "%.1f", (weights[row]["weight"] as? Double)!)
+        cell.dateLabel.text = dateString((weights[row].date as NSDate))
+        cell.weightLabel.text = String(format: "%.1f", weights[row].kg)
         
         return cell
     }
