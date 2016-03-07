@@ -25,6 +25,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        healthHandler.loadWeights() { weights in
+            self.weights = weights
+            
+            // redraw shit in main thread. otherwise the sky will fall
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.redraw()
+            })
+        }
+
         feedTableView.delegate = self
         feedTableView.dataSource = self
         feedTableView.registerClass(FeedTableViewCell.self, forCellReuseIdentifier: "feedcell")
@@ -99,14 +108,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         print("will appear")
+/*
         healthHandler.loadWeights() { weights in
             self.weights = weights
             self.redraw()
         }
+*/
     }
     
+    // needs animation
     func redraw() {
         print("redarwing")
+   
         if (weights.count > 0) {
             weight = weights[weights.count-1]["weight"] as! Double
             weightLabel.text = String(format:"%.1f", weight)
