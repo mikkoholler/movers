@@ -8,13 +8,9 @@
 
 import Foundation
 
-class Weight {
+struct Weight {
 
     var date = NSDate()
     var weight = Double()
 
-    init(date: NSDate, weight: Double) {
-        self.date = date
-        self.weight = weight
-    }
 }

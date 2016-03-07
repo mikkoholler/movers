@@ -39,8 +39,7 @@ class HealthHandler {
     }
     
     func saveWeight(date:NSDate, weight:Double) {
-        print("saving weight")
-        
+    
         let type = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!
         let quantity = HKQuantity(unit: HKUnit.gramUnitWithMetricPrefix(.Kilo), doubleValue: weight)
         let sample = HKQuantitySample(type: type, quantity: quantity, startDate: date, endDate: date)
@@ -74,7 +73,10 @@ class HealthHandler {
                     print(weight)
                 }
             }
-            completion(weights)
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                completion(weights)
+            })
         }
 
         healthKitStore.executeQuery(query)
