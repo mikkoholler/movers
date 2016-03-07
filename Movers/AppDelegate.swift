@@ -20,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
+        
+        let notifications = NotificationHandler()
+        notifications.setNotifications()
+        
         return true
     }
 

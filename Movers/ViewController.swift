@@ -130,6 +130,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func isToday(date: NSDate) -> Bool{
         var isOK = false
+
         let calendar = NSCalendar.currentCalendar()
         let dateComponents = calendar.components([NSCalendarUnit.Day, NSCalendarUnit.Month, NSCalendarUnit.Year], fromDate: date)
         let todayComponents = calendar.components([NSCalendarUnit.Day, NSCalendarUnit.Month, NSCalendarUnit.Year], fromDate: NSDate())
@@ -148,7 +149,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func enableToday() {
-        weightTextLabel.text = "Enter today's weight"
+        weightTextLabel.text = "Enter weight"
         weightButton.hidden = false
         logWeightEnabled = false
     }
