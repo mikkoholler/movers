@@ -10,7 +10,7 @@ import Foundation
 
 struct FeedItem {
     var id = Int()
-    var user = String()
+    var name = String()
     var date = String()
     var sport = String()
     var title = String()

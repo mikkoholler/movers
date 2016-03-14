@@ -53,42 +53,11 @@ class HeiaHandler {
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
                 do {
                     if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
-                        feed = jsonObject.map { (var item) -> FeedItem in
-                            var feeditem = FeedItem()
-                            feeditem.id = item["id"] as! Int
-                        
-                            let isTrainingEntry = (item["kind"] as! String == "TrainingLog")
-                            if (isTrainingEntry) {
-                        
-                                if let entry = item["entry"] as? [String:AnyObject] {
-                                    if let date = entry["date"] as? String {
-                                        feeditem.date = date
-                                    }
-                                    if let title = entry["title"] as? String {
-                                        feeditem.title = title
-                                    }
-                                    if let desc = entry["description"] as? String {
-                                        feeditem.desc = desc
-                                    }
-                                    if let mood = entry["mood"] as? Int {
-                                        feeditem.mood = mood
-                                    }
-                                    if let user = entry["user"] as? [String:AnyObject] {
-                                        if let name = user["first_name"] as? String {
-                                            feeditem.user = name
-                                        }
-                                    }
-                                    if let sport = entry["sport"] as? [String:AnyObject] {
-                                        if let sportname = sport["name"] as? String {
-                                            feeditem.sport = sportname
-                                        }
-                                    }
-                                }
-                            } else {
-                                print("some other entry")
+                        feed = jsonObject
+                            .filter { $0["kind"] as! String != "TextEntry" }
+                            .map { (let item) -> FeedItem in
+                                return self.parse(item)
                             }
-                            return feeditem
-                        }
                     }
                 } catch let e {
                     print(e)
@@ -101,5 +70,40 @@ class HeiaHandler {
             task.resume()
         }
     }
-    
+
+    func parse(item: [String:AnyObject]) -> FeedItem {
+        var feeditem = FeedItem()
+        feeditem.id = item["id"] as! Int
+        if let entry = item["entry"] as? [String:AnyObject] {
+            if let date = entry["date"] as? String {
+                feeditem.date = date
+            }
+            if let title = entry["title"] as? String {
+                feeditem.title = title
+            }
+            if let desc = entry["description"] as? String {
+                feeditem.desc = desc
+            }
+            if let mood = entry["mood"] as? Int {
+                feeditem.mood = mood
+            }
+            if let user = entry["user"] as? [String:AnyObject] {
+                if let firstname = user["first_name"] as? String {
+                    if let lastname = user["last_name"] as? String {
+                        feeditem.name = firstname + " " + lastname
+                    }
+                }
+            }
+            if let sport = entry["sport"] as? [String:AnyObject] {
+                if let sportname = sport["name"] as? String {
+                    feeditem.sport = sportname
+                }
+            }
+        }
+        if (feeditem.title == "") {
+            print(feeditem.id)
+        }
+        print(feeditem.title)
+        return feeditem
+    }
 }

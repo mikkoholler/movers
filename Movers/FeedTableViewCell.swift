@@ -10,9 +10,10 @@ import UIKit
 
 class FeedTableViewCell: UITableViewCell {
 
-    var dateLabel = UILabel()
-    var nameLabel = UILabel()
     var titleLabel = UILabel()
+    var dateLabel = UILabel()
+    var sportLabel = UILabel()
+    var nameLabel = UILabel()
     
     var weightLabel = UILabel()
     var separator = UIView()
@@ -20,31 +21,38 @@ class FeedTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubview(dateLabel)
-        contentView.addSubview(nameLabel)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(sportLabel)
+        contentView.addSubview(nameLabel)
 //        contentView.addSubview(weightLabel)
         contentView.addSubview(separator)
         
         // style
-        titleLabel.font = titleLabel.font.fontWithSize(12)
+        titleLabel.font = titleLabel.font.fontWithSize(18)
         dateLabel.font = weightLabel.font.fontWithSize(12)
+        sportLabel.font = sportLabel.font.fontWithSize(12)
         nameLabel.font = nameLabel.font.fontWithSize(12)
         weightLabel.font = weightLabel.font.fontWithSize(24)
         separator.backgroundColor = UIColor.lightGrayColor()
 
         // layout
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.topAnchor.constraintEqualToAnchor(contentView.topAnchor).active = true
+        nameLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraintEqualToAnchor(contentView.topAnchor).active = true
+        titleLabel.topAnchor.constraintEqualToAnchor(nameLabel.bottomAnchor, constant: 1).active = true
         titleLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
 
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.topAnchor.constraintEqualToAnchor(titleLabel.bottomAnchor, constant: 5).active = true
-        dateLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+        sportLabel.translatesAutoresizingMaskIntoConstraints = false
+        sportLabel.topAnchor.constraintEqualToAnchor(titleLabel.bottomAnchor, constant: 1).active = true
+        sportLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
 
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.topAnchor.constraintEqualToAnchor(dateLabel.bottomAnchor, constant: 5).active = true
-        nameLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.topAnchor.constraintEqualToAnchor(sportLabel.topAnchor).active = true
+        dateLabel.leftAnchor.constraintEqualToAnchor(sportLabel.rightAnchor, constant: 1).active = true
+
 /*
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
         weightLabel.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor).active = true

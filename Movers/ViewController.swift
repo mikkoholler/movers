@@ -87,7 +87,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         feedTableView.backgroundColor = UIColor.whiteColor()
         feedTableView.separatorStyle = .None
-        feedTableView.rowHeight = 50
+        feedTableView.rowHeight = 75
         feedTableView.allowsSelection = false
         
         feedTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -117,6 +117,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.feed = feed
             self.showData()
         }
+        
     }
     
     // needs animation
@@ -203,7 +204,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     // Conforming to UITableViewDataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return weights.count
+        return feed.count
     }
 
     // Conforming to UITableViewDataSource
@@ -214,10 +215,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.dateLabel.text = dateString((weights[row].date as NSDate))
         cell.weightLabel.text = String(format: "%.1f", weights[row].kg)
 */
-
         cell.titleLabel.text = feed[row].title
         cell.dateLabel.text = feed[row].date
-        cell.nameLabel.text = feed[row].user
+        cell.sportLabel.text = feed[row].sport
+        cell.nameLabel.text = feed[row].name
         
         return cell
     }
