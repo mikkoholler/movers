@@ -23,10 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let notifications = NotificationHandler()
         notifications.setNotifications()
-        
-        let heia = HeiaHandler()
-        heia.login()
-        
+                
         return true
     }
 

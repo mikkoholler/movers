@@ -9,24 +9,12 @@
 import Foundation
 
 class HeiaHandler {
-
-    var token:String?
-    
-    struct FeedItem {
-        var id = Int()
-        var user = String()
-        var date = String()
-        var sport = String()
-        var title = String()
-        var desc = String()
-        var mood = Int()
-    }
     
     init() {
     }
     
-    func login() {
-    
+    func login(completion: (String) -> ()) {
+        var token:String?
         let secret = Secret()
         let params = "grant_type=password&username=\(secret.username)&password=\(secret.passwd)&client_id=\(secret.clientid)&client_secret=\(secret.secret)"
         
@@ -39,8 +27,8 @@ class HeiaHandler {
             do {
                 if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? [String:AnyObject] {
                     NSOperationQueue.mainQueue().addOperationWithBlock {
-                        self.token = jsonObject["access_token"] as? String
-                        self.getFeed()
+                        token = jsonObject["access_token"] as? String
+                        completion(token!)
                     }
                 }
             } catch {
@@ -50,64 +38,68 @@ class HeiaHandler {
         task.resume()
     }
 
-    func getFeed() {
+    func getFeed(completion: ([FeedItem]) -> ()) {
         var feed = [FeedItem]()
 
-        let request = NSMutableURLRequest()
-        let params = "direction=desc&per_page=20&access_token=\(token!)"
-        let components = NSURLComponents(string: "https://api.heiaheia.com/api/v2/feeds")
-        components?.query = params
+        login() { (token) in
+            let request = NSMutableURLRequest()
+            let params = "direction=desc&per_page=20&access_token=\(token)"
+            let components = NSURLComponents(string: "https://api.heiaheia.com/api/v2/feeds")
+            components?.query = params
         
-        request.HTTPMethod = "GET"
-        request.URL = components?.URL
+            request.HTTPMethod = "GET"
+            request.URL = components?.URL
         
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
-            do {
-                if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
-                    feed = jsonObject.map { (var item) -> FeedItem in
-                        var feeditem = FeedItem()
-                        feeditem.id = item["id"] as! Int
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+                do {
+                    if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
+                        feed = jsonObject.map { (var item) -> FeedItem in
+                            var feeditem = FeedItem()
+                            feeditem.id = item["id"] as! Int
                         
-                        let isTrainingEntry = (item["kind"] as! String == "TrainingLog")
-                        if (isTrainingEntry) {
+                            let isTrainingEntry = (item["kind"] as! String == "TrainingLog")
+                            if (isTrainingEntry) {
                         
-                            if let entry = item["entry"] as? [String:AnyObject] {
-                                if let date = entry["date"] as? String {
-                                    feeditem.date = date
-                                }
-                                if let title = entry["title"] as? String {
-                                    feeditem.title = title
-                                }
-                                if let desc = entry["description"] as? String {
-                                    feeditem.desc = desc
-                                }
-                                if let mood = entry["mood"] as? Int {
-                                    feeditem.mood = mood
-                                }
-                                if let user = entry["user"] as? [String:AnyObject] {
-                                    if let name = user["first_name"] as? String {
-                                        feeditem.user = name
+                                if let entry = item["entry"] as? [String:AnyObject] {
+                                    if let date = entry["date"] as? String {
+                                        feeditem.date = date
+                                    }
+                                    if let title = entry["title"] as? String {
+                                        feeditem.title = title
+                                    }
+                                    if let desc = entry["description"] as? String {
+                                        feeditem.desc = desc
+                                    }
+                                    if let mood = entry["mood"] as? Int {
+                                        feeditem.mood = mood
+                                    }
+                                    if let user = entry["user"] as? [String:AnyObject] {
+                                        if let name = user["first_name"] as? String {
+                                            feeditem.user = name
+                                        }
+                                    }
+                                    if let sport = entry["sport"] as? [String:AnyObject] {
+                                        if let sportname = sport["name"] as? String {
+                                            feeditem.sport = sportname
+                                        }
                                     }
                                 }
-                                if let sport = entry["sport"] as? [String:AnyObject] {
-                                    if let sportname = sport["name"] as? String {
-                                        feeditem.sport = sportname
-                                    }
-                                }
+                            } else {
+                                print("some other entry")
                             }
-                        } else {
-                            print("some other entry")
+                            return feeditem
                         }
-                        return feeditem
                     }
-
+                } catch let e {
+                    print(e)
                 }
-                print(feed)
-            } catch let e {
-                print(e)
+
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    completion(feed)
+                }
             }
+            task.resume()
         }
-        task.resume()
     }
     
 }

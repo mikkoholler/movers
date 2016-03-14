@@ -19,9 +19,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var weight = 75.0
     var priorPoint = CGPoint()
     var weights:[Weight] = Array()
+    var feed:[FeedItem] = Array()
     var logWeightEnabled = true
     
     var healthHandler = HealthHandler()
+    var heiaHandler = HeiaHandler()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,6 +110,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func getData() {
         healthHandler.loadWeights() { weights in
             self.weights = weights
+//            self.showData()
+        }
+
+        heiaHandler.getFeed() { feed in
+            self.feed = feed
             self.showData()
         }
     }
@@ -203,9 +210,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("feedcell") as! FeedTableViewCell        // could also be done without reuse
         let row = indexPath.row
-        
+/*
         cell.dateLabel.text = dateString((weights[row].date as NSDate))
         cell.weightLabel.text = String(format: "%.1f", weights[row].kg)
+*/
+
+        cell.titleLabel.text = feed[row].title
+        cell.dateLabel.text = feed[row].date
+        cell.nameLabel.text = feed[row].user
         
         return cell
     }
