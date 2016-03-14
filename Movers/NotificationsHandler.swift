@@ -16,8 +16,10 @@ class NotificationHandler {
     }
     
     func setNotifications() {
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+
         let notification = UILocalNotification()
-        notification.alertTitle = "Log weight"
+        notification.alertTitle = ""
         notification.alertBody = "Have you logged today's weight yet?"
         notification.alertAction = "log"
         notification.fireDate = tomorrowAt8()

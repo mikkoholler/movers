@@ -145,13 +145,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func disableToday() {
         weightTextLabel.text = "Today's weight"
         weightButton.hidden = true
-        logWeightEnabled = true
+        logWeightEnabled = false
     }
     
     func enableToday() {
         weightTextLabel.text = "Enter weight"
         weightButton.hidden = false
-        logWeightEnabled = false
+        logWeightEnabled = true
     }
     
     func longPressed(sender: UILongPressGestureRecognizer) {
@@ -179,7 +179,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
 
-
     func buttonPressed() {
         let adddate = NSDate()
         let addweight = Double(weightLabel.text!)!              // what is this sorcery?
@@ -187,6 +186,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         weights.insert(Weight(date: adddate, kg: addweight), atIndex: 0)
         healthHandler.saveWeight(adddate, weight: addweight)
         feedTableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+        disableToday()
     }
 
     // Conforming to UITableViewDataSource
