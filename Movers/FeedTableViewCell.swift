@@ -25,12 +25,12 @@ class FeedTableViewCell: UITableViewCell {
         contentView.addSubview(dateLabel)
         contentView.addSubview(sportLabel)
         contentView.addSubview(nameLabel)
-//        contentView.addSubview(weightLabel)
+        contentView.addSubview(weightLabel)
         contentView.addSubview(separator)
         
         // style
         titleLabel.font = titleLabel.font.fontWithSize(18)
-        dateLabel.font = weightLabel.font.fontWithSize(12)
+        dateLabel.font = dateLabel.font.fontWithSize(12)
         sportLabel.font = sportLabel.font.fontWithSize(12)
         nameLabel.font = nameLabel.font.fontWithSize(12)
         weightLabel.font = weightLabel.font.fontWithSize(24)
@@ -50,14 +50,13 @@ class FeedTableViewCell: UITableViewCell {
         sportLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
 
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.topAnchor.constraintEqualToAnchor(sportLabel.topAnchor).active = true
-        dateLabel.leftAnchor.constraintEqualToAnchor(sportLabel.rightAnchor, constant: 1).active = true
+        dateLabel.topAnchor.constraintEqualToAnchor(sportLabel.bottomAnchor).active = true
+        dateLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
 
-/*
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
         weightLabel.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor).active = true
         weightLabel.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor).active = true
-*/
+
         separator.translatesAutoresizingMaskIntoConstraints = false
         separator.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor).active = true
         separator.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor).active = true

@@ -10,10 +10,12 @@ import Foundation
 
 struct FeedItem {
     var id = Int()
+    var type = String()
     var name = String()
     var date = String()
     var sport = String()
     var title = String()
     var desc = String()
     var mood = Int()
+    var weight = Double()
 }

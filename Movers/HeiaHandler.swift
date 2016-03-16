@@ -56,7 +56,11 @@ class HeiaHandler {
                         feed = jsonObject
                             .filter { $0["kind"] as! String != "TextEntry" }
                             .map { (let item) -> FeedItem in
-                                return self.parse(item)
+                                if (item["kind"] as! String == "Weight") {
+                                    return self.parseWeight(item)
+                                } else {
+                                    return self.parse(item)
+                                }
                             }
                     }
                 } catch let e {
@@ -73,7 +77,12 @@ class HeiaHandler {
 
     func parse(item: [String:AnyObject]) -> FeedItem {
         var feeditem = FeedItem()
-        feeditem.id = item["id"] as! Int
+        if let id = item["id"] as? Int {
+            feeditem.id = id
+        }
+        if let type = item["kind"] as? String {
+            feeditem.type = type
+        }
         if let entry = item["entry"] as? [String:AnyObject] {
             if let date = entry["date"] as? String {
                 feeditem.date = date
@@ -101,9 +110,56 @@ class HeiaHandler {
             }
         }
         if (feeditem.title == "") {
-            print(feeditem.id)
         }
-        print(feeditem.title)
         return feeditem
+    }
+    
+    func parseWeight(item: [String:AnyObject]) -> FeedItem {
+        print("parsing weight")
+        var feeditem = FeedItem()
+        if let id = item["id"] as? Int {
+            feeditem.id = id
+        }
+        if let type = item["kind"] as? String {
+            feeditem.type = type
+        }
+        if let entry = item["entry"] as? [String:AnyObject] {
+            if let date = entry["date"] as? String {
+                feeditem.date = date
+            }
+            if let value = entry["value"] as? Double {
+                print(value)
+                feeditem.weight = value                      // this is way wrong
+            }
+            if let user = entry["user"] as? [String:AnyObject] {
+                if let firstname = user["first_name"] as? String {
+                    if let lastname = user["last_name"] as? String {
+                        feeditem.name = firstname + " " + lastname
+                    }
+                }
+            }
+        }
+        return feeditem
+    }
+    
+    func saveWeight(date:NSDate, weight:Double) {
+        login() { (token) in
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let datestr = dateFormatter.stringFromDate(date)
+            let weightstr = String(format: "%.1f", weight)
+            
+            let params = "access_token=\(token)&date=\(datestr)&value=\(weightstr)&notes=&private=true"
+            let request = NSMutableURLRequest()
+            request.HTTPMethod = "POST"
+            request.HTTPBody = params.dataUsingEncoding(NSUTF8StringEncoding)
+            request.URL = NSURL(string: "https://api.heiaheia.com/v2/weights")
+            print(params)
+ 
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+                print(response)
+            }
+            task.resume()
+        }
     }
 }

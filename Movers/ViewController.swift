@@ -47,8 +47,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         weightInputView.rightAnchor.constraintEqualToAnchor(view.rightAnchor).active = true
         weightInputView.heightAnchor.constraintEqualToConstant(100).active = true
 
-        // TODO toggle: we have your input for today
-
         weightInputView.addSubview(weightTextLabel)
         weightInputView.addSubview(weightLabel)
         weightInputView.addSubview(weightButton)
@@ -128,7 +126,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             feedTableView.reloadData()
             
             if (isToday(weights[0].date)) {
-                print("weight exists for today")
                 disableToday()
             } else {
                 enableToday()
@@ -193,8 +190,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         weights.insert(Weight(date: adddate, kg: addweight), atIndex: 0)
         healthHandler.saveWeight(adddate, weight: addweight)
-        feedTableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
-        disableToday()
+        heiaHandler.saveWeight(adddate, weight: addweight)
+//        feedTableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+        getData()
     }
 
     // Conforming to UITableViewDataSource
@@ -211,14 +209,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("feedcell") as! FeedTableViewCell        // could also be done without reuse
         let row = indexPath.row
-/*
-        cell.dateLabel.text = dateString((weights[row].date as NSDate))
-        cell.weightLabel.text = String(format: "%.1f", weights[row].kg)
-*/
+
         cell.titleLabel.text = feed[row].title
         cell.dateLabel.text = feed[row].date
         cell.sportLabel.text = feed[row].sport
         cell.nameLabel.text = feed[row].name
+        
+        if (feed[row].type == "Weight") {
+            cell.sportLabel.text = "Weight"
+            cell.weightLabel.text = String(format: "%.1f", feed[row].weight)
+        } else {
+            cell.weightLabel.text = ""
+        }
         
         return cell
     }
