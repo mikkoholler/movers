@@ -19,25 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let notifications = NotificationHandler()
         notifications.setNotifications()
         
-        let feed = makeViewControllerNavigateable(FeedViewController(), title: "Feed", tabIcon: .More)
-        let log = makeViewControllerNavigateable(FeedViewController(), title: "Log", tabIcon: .Favorites)
+        let feedvc = FeedViewController()
+        feedvc.tabBarItem = UITabBarItem(title: "Feed" , image: nil, tag: 0)
+        
+        let logvc = FeedViewController()
+        logvc.tabBarItem = UITabBarItem(title: "Log" , image: nil, tag: 0)
 
         let tabs = UITabBarController()
-        tabs.viewControllers = [feed, log]
+        tabs.viewControllers = [feedvc, logvc]
 
         window = UIWindow()
         window?.rootViewController = tabs
         window?.makeKeyAndVisible()
         
         return true
-    }
-
-    func makeViewControllerNavigateable(controller: UIViewController, title: String, tabIcon: UITabBarSystemItem) -> UINavigationController {
-        controller.navigationItem.title = title
-        controller.tabBarItem = UITabBarItem(tabBarSystemItem: tabIcon, tag: 0)
-        let navigation = UINavigationController()
-        navigation.viewControllers = [controller]
-        return navigation
     }
 
     func applicationWillResignActive(application: UIApplication) {
