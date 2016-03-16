@@ -15,16 +15,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        window = UIWindow()
-        
-        window?.rootViewController = ViewController()
-        window?.makeKeyAndVisible()
         
         let notifications = NotificationHandler()
         notifications.setNotifications()
+        
+        let feed = makeViewControllerNavigateable(ViewController(), title: "Feed", tabIcon: .More)
+        let log = makeViewControllerNavigateable(ViewController(), title: "Log", tabIcon: .Favorites)
+
+        let tabs = UITabBarController()
+        tabs.viewControllers = [feed, log]
+
+        window = UIWindow()
+        window?.rootViewController = tabs
+        window?.makeKeyAndVisible()
                 
         return true
+    }
+
+    func makeViewControllerNavigateable(controller: UIViewController, title: String, tabIcon: UITabBarSystemItem) -> UINavigationController {
+        controller.navigationItem.title = title
+        controller.tabBarItem = UITabBarItem(tabBarSystemItem: tabIcon, tag: 0)
+        let navigation = UINavigationController()
+        navigation.viewControllers = [controller]
+        return navigation
     }
 
     func applicationWillResignActive(application: UIApplication) {
