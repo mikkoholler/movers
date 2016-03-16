@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     let weightInputView = UIView()
     let weightTextLabel = UILabel()

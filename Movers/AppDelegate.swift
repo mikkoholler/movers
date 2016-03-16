@@ -19,8 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let notifications = NotificationHandler()
         notifications.setNotifications()
         
-        let feed = makeViewControllerNavigateable(ViewController(), title: "Feed", tabIcon: .More)
-        let log = makeViewControllerNavigateable(ViewController(), title: "Log", tabIcon: .Favorites)
+        let feed = makeViewControllerNavigateable(FeedViewController(), title: "Feed", tabIcon: .More)
+        let log = makeViewControllerNavigateable(FeedViewController(), title: "Log", tabIcon: .Favorites)
 
         let tabs = UITabBarController()
         tabs.viewControllers = [feed, log]
@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.rootViewController = tabs
         window?.makeKeyAndVisible()
-                
+        
         return true
     }
 
@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
       
-       if let viewController = window?.rootViewController as? ViewController {
+       if let viewController = window?.rootViewController as? FeedViewController {
             viewController.getData()
         }
         
