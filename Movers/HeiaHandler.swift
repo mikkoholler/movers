@@ -74,6 +74,39 @@ class HeiaHandler {
             task.resume()
         }
     }
+    
+    func getLogs(completion: ([FeedItem]) -> ()) {
+        var logs = [FeedItem]()
+
+        login() { (token) in
+            let request = NSMutableURLRequest()
+            let params = "status=regular&year=2016&page=1&per_page=20&access_token=\(token)"
+            let components = NSURLComponents(string: "https://api.heiaheia.com/v2/training_logs")
+            components?.query = params
+        
+            request.HTTPMethod = "GET"
+            request.URL = components?.URL
+        
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+                do {
+                    if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
+                        logs = jsonObject
+                            //.filter { $0["kind"] as! String != "TextEntry" }
+                            .map { (let item) -> FeedItem in
+                                return self.parseLog(item)
+                            }
+                    }
+                } catch let e {
+                    print(e)
+                }
+
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    completion(logs)
+                }
+            }
+            task.resume()
+        }
+    }
 
     func parse(item: [String:AnyObject]) -> FeedItem {
         var feeditem = FeedItem()
@@ -142,6 +175,28 @@ class HeiaHandler {
         return feeditem
     }
     
+    func parseLog(item: [String:AnyObject]) -> FeedItem {
+        var feeditem = FeedItem()
+        if let title = item["title"] as? String {
+            feeditem.title = title
+        }
+        if let date = item["date"] as? String {
+            feeditem.date = date
+        }
+        if let desc = item["description"] as? String {
+            feeditem.desc = desc
+        }
+        if let mood = item["mood"] as? Int {
+            feeditem.mood = mood
+        }
+        if let sport = item["sport"] as? [String:AnyObject] {
+            if let sportname = sport["name"] as? String {
+                feeditem.sport = sportname
+            }
+        }
+        return feeditem
+    }
+
     func saveWeight(date:NSDate, weight:Double) {
         login() { (token) in
             let dateFormatter = NSDateFormatter()

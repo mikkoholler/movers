@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let feedvc = FeedViewController()
         feedvc.tabBarItem = UITabBarItem(title: "Feed" , image: nil, tag: 0)
         
-        let logvc = FeedViewController()
+        let logvc = LogViewController()
         logvc.tabBarItem = UITabBarItem(title: "Log" , image: nil, tag: 0)
 
         let tabs = UITabBarController()

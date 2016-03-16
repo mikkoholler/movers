@@ -10,6 +10,7 @@
 		0D1F53E91C969DFA00A758B5 /* HeiaHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1F53E81C969DFA00A758B5 /* HeiaHandler.swift */; };
 		0D1F53EB1C96A54800A758B5 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1F53EA1C96A54800A758B5 /* Secrets.swift */; };
 		0D1F53ED1C9717AC00A758B5 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1F53EC1C9717AC00A758B5 /* FeedItem.swift */; };
+		0D1F53EF1C997D2C00A758B5 /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1F53EE1C997D2C00A758B5 /* LogViewController.swift */; };
 		0DA1E9451C843DD3008A06CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1E9441C843DD3008A06CD /* AppDelegate.swift */; };
 		0DA1E9471C843DD3008A06CD /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA1E9461C843DD3008A06CD /* FeedViewController.swift */; };
 		0DA1E94A1C843DD3008A06CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DA1E9481C843DD3008A06CD /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 		0D1F53E81C969DFA00A758B5 /* HeiaHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeiaHandler.swift; sourceTree = "<group>"; };
 		0D1F53EA1C96A54800A758B5 /* Secrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		0D1F53EC1C9717AC00A758B5 /* FeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
+		0D1F53EE1C997D2C00A758B5 /* LogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
 		0DA1E9411C843DD3008A06CD /* Movers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DA1E9441C843DD3008A06CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0DA1E9461C843DD3008A06CD /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				0DA1E9601C872617008A06CD /* Movers.entitlements */,
 				0DA1E9441C843DD3008A06CD /* AppDelegate.swift */,
 				0DA1E9461C843DD3008A06CD /* FeedViewController.swift */,
+				0D1F53EE1C997D2C00A758B5 /* LogViewController.swift */,
 				0DA1E9651C8DADF7008A06CD /* NotificationsHandler.swift */,
 				0D1F53E81C969DFA00A758B5 /* HeiaHandler.swift */,
 				0D1F53EC1C9717AC00A758B5 /* FeedItem.swift */,
@@ -169,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DA1E95F1C86F2CB008A06CD /* HealthHandler.swift in Sources */,
+				0D1F53EF1C997D2C00A758B5 /* LogViewController.swift in Sources */,
 				0D1F53EB1C96A54800A758B5 /* Secrets.swift in Sources */,
 				0DA1E9471C843DD3008A06CD /* FeedViewController.swift in Sources */,
 				0D1F53E91C969DFA00A758B5 /* HeiaHandler.swift in Sources */,

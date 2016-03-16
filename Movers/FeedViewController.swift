@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FeedViewController.swift
 //  Movers
 //
 //  Created by Michael Holler on 29/02/16.
