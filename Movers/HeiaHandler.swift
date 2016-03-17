@@ -91,7 +91,6 @@ class HeiaHandler {
                 do {
                     if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
                         logs = jsonObject
-                            //.filter { $0["kind"] as! String != "TextEntry" }
                             .map { (let item) -> FeedItem in
                                 return self.parseLog(item)
                             }
@@ -113,33 +112,77 @@ class HeiaHandler {
 
         login() { (token) in
             let request = NSMutableURLRequest()
-            let params = "year=2016&access_token=\(token)"
-            let components = NSURLComponents(string: "https://api.heiaheia.com/v2/top_sports/55")
+            let params = "direction=desc&per_page=100&year=2016&access_token=\(token)"
+            let components = NSURLComponents(string: "https://api.heiaheia.com/v2/training_logs")
             components?.query = params
         
             request.HTTPMethod = "GET"
             request.URL = components?.URL
+  
+            self.fetchDays(request) { adddays in
+                print("2016: \(adddays)")
+                days += adddays
+                completion(adddays)
+                print(days)
+
+                let request2 = NSMutableURLRequest()
+                let params2 = "direction=desc&per_page=100&year=2015&access_token=\(token)"
+                let components2 = NSURLComponents(string: "https://api.heiaheia.com/v2/training_logs")
+                components2?.query = params2
+                
+                request2.HTTPMethod = "GET"
+                request2.URL = components2?.URL
+                
+                self.fetchDays(request2) { adddays in
+                    print("2015: \(adddays)")
+                    days += adddays
+                    completion(adddays)
+                    print(days)
+                    NSOperationQueue.mainQueue().addOperationWithBlock {
+                        print("total: \(days)")
+                        completion(days)
+                    }
+                }
+            }
+        }
+    }
+    
+            
+    func fetchDays(request:NSMutableURLRequest, completion: (Int) -> ()) {
+        var days = Int()
         
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
                 do {
-                    if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? [String:AnyObject] {
+                    if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
+                        
+                        days = jsonObject
+                            .filter { (let item) -> Bool in
 
-                        if let foo = jsonObject["count"] as? Int {
-                            days = foo
-                        }
-
+                                var delete = false
+                                
+                                if let sport = item["sport"] as? [String:AnyObject] {
+                                    if let id = sport["id"] as? Int {
+                                        if (id == 55) {
+                                            delete = true
+                                        }
+                                    }
+                                }
+                                return delete
+                                
+                            }
+                            .count
                     }
                 } catch let e {
                     print(e)
                 }
 
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                NSOperationQueue.mainQueue().addOperationWithBlock {        // might not be needed
                     completion(days)
                 }
 
             }
             task.resume()
-        }
+        
     }
 
     func parse(item: [String:AnyObject]) -> FeedItem {
@@ -182,7 +225,6 @@ class HeiaHandler {
     }
     
     func parseWeight(item: [String:AnyObject]) -> FeedItem {
-        print("parsing weight")
         var feeditem = FeedItem()
         if let id = item["id"] as? Int {
             feeditem.id = id
@@ -195,8 +237,7 @@ class HeiaHandler {
                 feeditem.date = date
             }
             if let value = entry["value"] as? Double {
-                print(value)
-                feeditem.weight = value                      // this is way wrong
+                feeditem.weight = value
             }
             if let user = entry["user"] as? [String:AnyObject] {
                 if let firstname = user["first_name"] as? String {

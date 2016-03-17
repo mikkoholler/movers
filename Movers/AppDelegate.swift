@@ -21,9 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let feedvc = FeedViewController()
         feedvc.tabBarItem = UITabBarItem(title: "Feed" , image: nil, tag: 0)
+        feedvc.getData()
         
         let logvc = LogViewController()
         logvc.tabBarItem = UITabBarItem(title: "Log" , image: nil, tag: 0)
+        logvc.getData()
 
         let tabs = UITabBarController()
         tabs.viewControllers = [feedvc, logvc]
@@ -47,8 +49,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
       
-       if let viewController = window?.rootViewController as? FeedViewController {
-            viewController.getData()
+       if let tabs = window?.rootViewController as? UITabBarController {
+            if let feedvc = tabs.viewControllers?.first as? FeedViewController {
+                feedvc.getData()
+            }
+            if let logvc = tabs.viewControllers?.last as? LogViewController {
+                logvc.getData()
+            }
         }
         
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.

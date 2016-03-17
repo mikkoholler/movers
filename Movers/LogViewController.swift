@@ -50,7 +50,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         rideTextLabel.textColor = UIColor.blackColor()
 
         rideLabel.font = rideLabel.font.fontWithSize(48)
-        rideLabel.text = "52"
+        rideLabel.text = "0"
 
         // layout
         rideTextLabel.translatesAutoresizingMaskIntoConstraints = false
