@@ -87,6 +87,9 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
             self.showData()
         }
         
+        heiaHandler.getRidingDays() { days in
+            self.rideLabel.text = String(format: "%d", days)
+        }
     }
     
     // needs animation

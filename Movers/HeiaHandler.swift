@@ -108,6 +108,40 @@ class HeiaHandler {
         }
     }
 
+    func getRidingDays(completion: (Int) -> ()) {
+        var days = Int()
+
+        login() { (token) in
+            let request = NSMutableURLRequest()
+            let params = "year=2016&access_token=\(token)"
+            let components = NSURLComponents(string: "https://api.heiaheia.com/v2/top_sports/55")
+            components?.query = params
+        
+            request.HTTPMethod = "GET"
+            request.URL = components?.URL
+        
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+                do {
+                    if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? [String:AnyObject] {
+
+                        if let foo = jsonObject["count"] as? Int {
+                            days = foo
+                        }
+
+                    }
+                } catch let e {
+                    print(e)
+                }
+
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    completion(days)
+                }
+
+            }
+            task.resume()
+        }
+    }
+
     func parse(item: [String:AnyObject]) -> FeedItem {
         var feeditem = FeedItem()
         if let id = item["id"] as? Int {
