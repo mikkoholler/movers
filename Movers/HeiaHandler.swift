@@ -111,9 +111,10 @@ class HeiaHandler {
         var days = Int()
 
         login() { (token) in
+            
             let request = NSMutableURLRequest()
-            let params = "direction=desc&per_page=100&year=2016&access_token=\(token)"
             let components = NSURLComponents(string: "https://api.heiaheia.com/v2/training_logs")
+            var params = "page=1&per_page=100&year=2016&access_token=\(token)"
             components?.query = params
         
             request.HTTPMethod = "GET"
@@ -122,22 +123,25 @@ class HeiaHandler {
             self.fetchDays(request) { adddays in
                 print("2016: \(adddays)")
                 days += adddays
-                completion(adddays)
                 print(days)
 
-                let request2 = NSMutableURLRequest()
-                let params2 = "direction=desc&per_page=100&year=2015&access_token=\(token)"
-                let components2 = NSURLComponents(string: "https://api.heiaheia.com/v2/training_logs")
-                components2?.query = params2
-                
-                request2.HTTPMethod = "GET"
-                request2.URL = components2?.URL
-                
-                self.fetchDays(request2) { adddays in
-                    print("2015: \(adddays)")
-                    days += adddays
-                    completion(adddays)
-                    print(days)
+                if (!self.lastJulyWasThisYear()) {
+                    params = "page=1&per_page=100&year=2015&access_token=\(token)"
+                    components?.query = params
+                    
+                    request.HTTPMethod = "GET"
+                    request.URL = components?.URL
+                    
+                    self.fetchDays(request) { adddays in
+                        print("2015: \(adddays)")
+                        days += adddays
+                        print(days)
+                        NSOperationQueue.mainQueue().addOperationWithBlock {
+                            print("total: \(days)")
+                            completion(days)
+                        }
+                    }
+                } else {
                     NSOperationQueue.mainQueue().addOperationWithBlock {
                         print("total: \(days)")
                         completion(days)
@@ -292,4 +296,45 @@ class HeiaHandler {
             task.resume()
         }
     }
+    
+    func lastJulyWasThisYear() -> Bool {
+    
+        var thisYear = true
+    
+        let calendar = NSCalendar.currentCalendar()
+        let date = NSDate()
+        let todayComponents = calendar.components([.Day, .Month, .Year], fromDate: date)
+        
+        let julyComponents = NSDateComponents()
+        julyComponents.month = 7
+        
+        if (todayComponents.month < julyComponents.month) {
+            thisYear = false
+        }
+        
+        return thisYear
+    }
+
+    func lastJuly() -> NSDate {
+    
+        let calendar = NSCalendar.currentCalendar()
+        let date = NSDate()
+        
+        let todayComponents = calendar.components([.Day, .Month, .Year], fromDate: date)
+        
+        let julyComponents = NSDateComponents()
+        julyComponents.day = 1
+        julyComponents.month = 7
+        
+        if (todayComponents.month < julyComponents.month) {
+            julyComponents.year = todayComponents.year
+        } else {
+            julyComponents.year = todayComponents.year - 1
+        }
+        
+        let lastJuly = calendar.dateFromComponents(julyComponents)
+        
+        return lastJuly!
+    }
+
 }
