@@ -108,42 +108,24 @@ class HeiaHandler {
     }
 
     func getRidingDays(completion: (Int) -> ()) {
-        var days = Int()
+        var days = 0  // böö
 
         login() { (token) in
-            
-            let request = NSMutableURLRequest()
-            let components = NSURLComponents(string: "https://api.heiaheia.com/v2/training_logs")
-            var params = "page=1&per_page=100&year=2016&access_token=\(token)"
-            components?.query = params
         
-            request.HTTPMethod = "GET"
-            request.URL = components?.URL
-  
-            self.fetchDays(request) { adddays in
-                print("2016: \(adddays)")
+            let year = self.thisYear()
+            
+            self.fetchDays(token, year: year) { adddays in
                 days += adddays
-                print(days)
 
                 if (!self.lastJulyWasThisYear()) {
-                    params = "page=1&per_page=100&year=2015&access_token=\(token)"
-                    components?.query = params
-                    
-                    request.HTTPMethod = "GET"
-                    request.URL = components?.URL
-                    
-                    self.fetchDays(request) { adddays in
-                        print("2015: \(adddays)")
+                    self.fetchDays(token, year: year-1, page: 1) { adddays in
                         days += adddays
-                        print(days)
                         NSOperationQueue.mainQueue().addOperationWithBlock {
-                            print("total: \(days)")
                             completion(days)
                         }
                     }
                 } else {
                     NSOperationQueue.mainQueue().addOperationWithBlock {
-                        print("total: \(days)")
                         completion(days)
                     }
                 }
@@ -152,40 +134,60 @@ class HeiaHandler {
     }
     
             
-    func fetchDays(request:NSMutableURLRequest, completion: (Int) -> ()) {
+    func fetchDays(token: String, year: Int, page: Int = 1, daysTotal: Int = 0, completion: (Int) -> ()) {
         var days = Int()
+        var rows = Int()
+        var lastdate = NSDate()
         
-            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
-                do {
-                    if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
-                        
-                        days = jsonObject
-                            .filter { (let item) -> Bool in
+        let request = NSMutableURLRequest()
+        let components = NSURLComponents(string: "https://api.heiaheia.com/v2/training_logs")
+        let params = "page=\(page)&per_page=100&year=\(year)&access_token=\(token)"
+        components?.query = params
+        
+        request.HTTPMethod = "GET"
+        request.URL = components?.URL
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+            do {
+                if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
+                    rows = jsonObject.count
+                    days = jsonObject
+                        .filter { (let item) -> Bool in
+                            
+                            var delete = false
+                            if let date = item["date"] as? String {
+                                let dateFormatter = NSDateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd"
+                                lastdate = dateFormatter.dateFromString(date)!
+                            }
 
-                                var delete = false
-                                
-                                if let sport = item["sport"] as? [String:AnyObject] {
-                                    if let id = sport["id"] as? Int {
-                                        if (id == 55) {
-                                            delete = true
-                                        }
+                            if let sport = item["sport"] as? [String:AnyObject] {
+                                if let id = sport["id"] as? Int {
+                                    if (id == 55 && lastdate.compare(self.lastJuly()) == NSComparisonResult.OrderedDescending) {
+                                        delete = true
+                                    
                                     }
                                 }
-                                return delete
-                                
                             }
-                            .count
-                    }
-                } catch let e {
-                    print(e)
+                            return delete
+                            
+                        }
+                        .count
                 }
-
-                NSOperationQueue.mainQueue().addOperationWithBlock {        // might not be needed
-                    completion(days)
-                }
-
+            } catch let e {
+                print(e)
             }
-            task.resume()
+            
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                if (rows == 100 && lastdate.compare(self.lastJuly()) == NSComparisonResult.OrderedDescending) {
+                    self.fetchDays(token, year: year, page: page+1, daysTotal: daysTotal + days, completion: completion)
+                } else {
+                    completion(daysTotal + days)
+                }
+            }
+            
+        }
+        task.resume()
         
     }
 
@@ -315,7 +317,7 @@ class HeiaHandler {
         return thisYear
     }
 
-    func lastJuly() -> NSDate {
+    func lastJuly() -> NSDate {             // three hours missing???
     
         let calendar = NSCalendar.currentCalendar()
         let date = NSDate()
@@ -326,7 +328,7 @@ class HeiaHandler {
         julyComponents.day = 1
         julyComponents.month = 7
         
-        if (todayComponents.month < julyComponents.month) {
+        if (todayComponents.month > julyComponents.month) {
             julyComponents.year = todayComponents.year
         } else {
             julyComponents.year = todayComponents.year - 1
@@ -335,6 +337,10 @@ class HeiaHandler {
         let lastJuly = calendar.dateFromComponents(julyComponents)
         
         return lastJuly!
+    }
+    
+    func thisYear() -> Int {
+        return NSCalendar.currentCalendar().components([.Year], fromDate: NSDate()).year
     }
 
 }
