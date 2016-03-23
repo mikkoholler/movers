@@ -106,6 +106,21 @@ class HeiaHandler {
             task.resume()
         }
     }
+    
+    func getNotificationFeed(completion: ([FeedItem]) -> ()) {
+        var feed = [FeedItem]()
+        
+        // replace with data from Heia
+        var feeditem = FeedItem()
+        feeditem.title = "Testies"
+        feeditem.name = "Matti Meikkis"
+
+        feed.append(feeditem)
+        
+        NSOperationQueue.mainQueue().addOperationWithBlock {
+            completion(feed)
+        }
+    }
 
     func getRidingDays(completion: (Int) -> ()) {
         var days = 0  // böö
