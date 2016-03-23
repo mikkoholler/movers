@@ -26,9 +26,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let logvc = LogViewController()
         logvc.tabBarItem = UITabBarItem(title: "Log" , image: nil, tag: 0)
         logvc.getData()
+        
+        let notificationvc = NotificationViewController()
+        notificationvc.tabBarItem = UITabBarItem(title: "Notifications" , image: nil, tag: 0)
+        
+        let settingsvc = SettingsViewController()
+        settingsvc.tabBarItem = UITabBarItem(title: "Log" , image: nil, tag: 0)
 
         let tabs = UITabBarController()
-        tabs.viewControllers = [feedvc, logvc]
+        tabs.viewControllers = [feedvc, logvc, notificationvc, settingsvc]
 
         window = UIWindow()
         window?.rootViewController = tabs
