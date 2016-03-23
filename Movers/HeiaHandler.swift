@@ -156,9 +156,7 @@ class HeiaHandler {
                             
                             var delete = false
                             if let date = item["date"] as? String {
-                                let dateFormatter = NSDateFormatter()
-                                dateFormatter.dateFormat = "yyyy-MM-dd"
-                                lastdate = dateFormatter.dateFromString(date)!
+                                lastdate = self.dateFromString(date)
                             }
 
                             if let sport = item["sport"] as? [String:AnyObject] {
@@ -342,5 +340,10 @@ class HeiaHandler {
     func thisYear() -> Int {
         return NSCalendar.currentCalendar().components([.Year], fromDate: NSDate()).year
     }
-
+    
+    func dateFromString(date:String) -> NSDate {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.dateFromString(date)!
+    }
 }
