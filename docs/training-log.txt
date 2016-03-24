@@ -1,0 +1,50 @@
+TRAINING LOG
+
+[
+	"title": Tiimisulis., 
+	"favourite": 0, 
+	"date": 2016-03-16, 
+	"description": Kaksaria kolmen eri kaverin kanssa ja nelaria kahdella kombolla. Hyvä setti!, 
+	"media": (), 
+	"duration_s": <null>, 
+	"gpx_url": <null>, 
+	"share_url": <null>, 
+	"cheers_url": https://api.heiaheia.com/v2/training_logs/31065232805092/cheers, 
+	"id": 31065232805092, "max_hr": <null>, "avg_hr": <null>, "user": {
+    "avatar_url" = "https://d3mvp7qep2iigo.cloudfront.net/images/avatars/4728/{size}.jpg";
+    city = Helsinki;
+    country = FI;
+    "first_name" = Michael;
+    "friendship_status" = "not_friend";
+    "friendship_url" = "https://api.heiaheia.com/v2/friends/28811619755";
+    id = 28811619755;
+    "last_name" = Holler;
+    "training_for" = "Pari numeerista tavoitetta, joiden pit\U00e4isi taata \"hyv\U00e4\" m\U00e4\U00e4r\U00e4 liikuntaa.
+\n
+\n700 tuntia (+20 tuntia vuoteen 2013)
+\n30 eri lajia (+3, 1 uusi laji)
+\n120 krt venyttely\U00e4 (+20 kertaa)
+\n100 krt TKD (+32 kertaa)
+\n1000 km py\U00f6r\U00e4ily\U00e4 (+165 km)";
+    url = "https://api.heiaheia.com/v2/users/28811619755";
+}, "status": regular, "url": https://api.heiaheia.com/v2/training_logs/31065232805092, "calories": <null>, "created_at": 2016-03-16T18:18:40Z, "commentable": 1, "cheers_count": 0, "notes": Tiimisulis. Kaksaria kolmen eri kaverin kanssa ja nelaria kahdella kombolla. Hyvä setti!, "comments_url": https://api.heiaheia.com/v2/training_logs/31065232805092/comments, "comments_count": 0, "duration_h": 1, "removable": 1, "sport": {
+    "icon_url" = "https://d24xdhqushnecb.cloudfront.net/sports/regular_icons/15/{size}.png";
+    id = 15;
+    name = Badminton;
+    "planned_icon_url" = "https://d24xdhqushnecb.cloudfront.net/sports/planned_icons/15/{size}.png";
+    url = "https://api.heiaheia.com/v2/sports/15";
+}, "private": 0, "tags": (
+), "mood_icon_url": , "sport_param_values": (
+        {
+        "sport_param" =         {
+            key = score;
+            name = score;
+            "unit_name" = "";
+            "unit_type" = "";
+            "value_type" = string;
+        };
+        value = "<null>";
+    }
+), "editable_sport": 1, "cheerable": 0, "place": <null>, "editable": 1, "latest_comments": (
+), "duration_m": <null>, "mood": 4, "exclude_stats": 0, "latest_cheers": (
+)]

@@ -1,0 +1,43 @@
+SPORT
+
+{
+	"sport":{
+		"id":55,
+		"name":"Snowboarding",
+		"icon_url":"https://d24xdhqushnecb.cloudfront.net/sports/regular_icons/55/{size}.png",
+		"url":"https://api.heiaheia.com/v2/sports/55","planned_icon_url":"https://d24xdhqushnecb.cloudfront.net/sports/planned_icons/55/{size}.png",
+		"exclude_stats":false,
+		"dummy":false,
+		"creatable":true,
+		"sport_params":[
+			{
+				"key":"location",
+				"name":"location",
+				"unit_type":"",
+				"unit_name":"",
+				"value_type":"string"
+			},
+			{
+				"key":"style",
+				"name":"style",
+				"unit_type":"",
+				"unit_name":"",
+				"value_type":"string"
+			},{
+				"key":"distance",
+				"name":"distance",
+				"unit_type":"km",
+				"unit_name":"km",
+				"value_type":"float"
+			}
+		]
+	},
+	"url":"https://api.heiaheia.com/v2/users/28811619755/top_sports/55?year=2016",
+	"count":29,
+	"hours":105,
+	"minutes":15,
+	"distance":null,
+	"mode_values":{
+		"duration":"7200"
+	}
+}

@@ -1,0 +1,23 @@
+Movers backlog
+- kauden laskut näkyviin
+- viikon keskiarvoon vertaus
+- weight irti viewcontrollerista
+- paino Heiaan
+- paino Watchista
+- feed näkyviin
+- cheer
+- comment
+- activity
+- lisää tapahtuma
+
++ paino HealthKittiin
++ weights structiin
++ datan rullaus oikein päin
++ paino lisätty jo tälle päivälle
++ painonotsku
+
+        /*
+        let viewYAnchor = NSLayoutConstraint(item: weightView, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 0.3, constant: 0)
+        
+        viewYAnchor.active = true
+        */
