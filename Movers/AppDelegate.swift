@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         notificationvc.getData()
         
         let settingsvc = SettingsViewController()
-        settingsvc.tabBarItem = UITabBarItem(title: "Log" , image: nil, tag: 0)
+        settingsvc.tabBarItem = UITabBarItem(title: "Settings" , image: nil, tag: 0)
 
         let tabs = UITabBarController()
         tabs.viewControllers = [feedvc, logvc, notificationvc, settingsvc]

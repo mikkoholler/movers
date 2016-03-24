@@ -10,10 +10,47 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
+    let notificationLabel = UILabel()
+    let notificationSwitch = UISwitch()
+
+    let weightLabel = UILabel()
+    let weightSwitch = UISwitch()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        view.backgroundColor = UIColor.whiteColor()
+
+        view.addSubview(notificationLabel)
+        view.addSubview(notificationSwitch)
+        view.addSubview(weightLabel)
+        view.addSubview(weightSwitch)
+        
+        notificationLabel.text = "Send notifications"
+        notificationLabel.textColor = UIColor.blackColor()
+
+        notificationLabel.translatesAutoresizingMaskIntoConstraints = false
+        notificationLabel.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 50).active = true
+        notificationLabel.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 10).active = true
+
+        notificationSwitch.translatesAutoresizingMaskIntoConstraints = false
+        notificationSwitch.centerYAnchor.constraintEqualToAnchor(notificationLabel.centerYAnchor).active = true
+        notificationSwitch.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -20).active = true
+
+        weightLabel.text = "Save weight to HealthKit"
+        weightLabel.textColor = UIColor.blackColor()
+
+        weightLabel.translatesAutoresizingMaskIntoConstraints = false
+        weightLabel.topAnchor.constraintEqualToAnchor(notificationLabel.bottomAnchor, constant: 40).active = true
+        weightLabel.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 10).active = true
+
+        weightSwitch.translatesAutoresizingMaskIntoConstraints = false
+        weightSwitch.centerYAnchor.constraintEqualToAnchor(weightLabel.centerYAnchor).active = true
+        weightSwitch.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -20).active = true
+
+        // set default for nao
+        notificationSwitch.on = true
+        weightSwitch.on = true
     }
 
     override func didReceiveMemoryWarning() {
