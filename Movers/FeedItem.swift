@@ -18,4 +18,5 @@ struct FeedItem {
     var desc = String()
     var mood = Int()
     var weight = Double()
+    var avatar = String()
 }

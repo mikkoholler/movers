@@ -231,6 +231,10 @@ class HeiaHandler {
                         feeditem.name = firstname + " " + lastname
                     }
                 }
+                if let avatar = user["avatar_url"] as? String {
+                    feeditem.avatar = avatar
+                }
+
             }
             if let sport = entry["sport"] as? [String:AnyObject] {
                 if let sportname = sport["name"] as? String {

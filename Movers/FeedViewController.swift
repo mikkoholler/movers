@@ -216,6 +216,13 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.sportLabel.text = feed[row].sport
         cell.nameLabel.text = feed[row].name
         
+        var stars = ""
+        for (var i=0; i<feed[row].mood; i++) {
+            stars = stars + "\u{2B50}"
+        }
+        
+        cell.moodLabel.text = stars
+        
         if (feed[row].type == "Weight") {
             cell.sportLabel.text = "Weight"
             cell.weightLabel.text = String(format: "%.1f", feed[row].weight)
