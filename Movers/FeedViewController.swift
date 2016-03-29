@@ -230,6 +230,12 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
             cell.weightLabel.text = ""
         }
         
+        let avatarurl = feed[row].avatarurl
+        
+        heiaHandler.fetchImage(NSURL(string: avatarurl)!, completion: { image in
+            cell.avatarView.image = image
+        })
+        
         return cell
     }
 

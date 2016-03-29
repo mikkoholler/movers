@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class HeiaHandler {
     
@@ -232,7 +233,7 @@ class HeiaHandler {
                     }
                 }
                 if let avatar = user["avatar_url"] as? String {
-                    feeditem.avatar = avatar
+                    feeditem.avatarurl = avatar.stringByReplacingOccurrencesOfString("{size}", withString: "48x48")
                 }
 
             }
@@ -314,6 +315,20 @@ class HeiaHandler {
             }
             task.resume()
         }
+    }
+    
+    func fetchImage(url: NSURL, completion: (UIImage) -> ()) {
+        let task = NSURLSession.sharedSession().downloadTaskWithURL(url) { (location, httpResponse, error) -> Void in
+            guard let location = location, let data = NSData(contentsOfURL: location) else {
+                return
+            }
+            let image = UIImage(data: data)
+            
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                completion(image!)
+            }
+        }
+        task.resume()
     }
     
     func lastJulyWasThisYear() -> Bool {

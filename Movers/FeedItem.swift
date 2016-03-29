@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct FeedItem {
     var id = Int()
@@ -18,5 +19,6 @@ struct FeedItem {
     var desc = String()
     var mood = Int()
     var weight = Double()
-    var avatar = String()
+    var avatarurl = String()
+    var avatar = UIImage()
 }

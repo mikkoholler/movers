@@ -10,6 +10,7 @@ import UIKit
 
 class FeedTableViewCell: UITableViewCell {
 
+    var avatarView = UIImageView()
     var nameLabel = UILabel()
     var sportLabel = UILabel()
     var dateLabel = UILabel()
@@ -22,6 +23,7 @@ class FeedTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        contentView.addSubview(avatarView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(sportLabel)
         contentView.addSubview(dateLabel)
@@ -31,10 +33,14 @@ class FeedTableViewCell: UITableViewCell {
         contentView.addSubview(separator)
         
         // style
+        avatarView.backgroundColor = UIColor.lightGrayColor()
+        avatarView.contentMode = .ScaleAspectFill
+        avatarView.clipsToBounds = true
+
         nameLabel.font = nameLabel.font.fontWithSize(12)
         sportLabel.font = sportLabel.font.fontWithSize(14)
         moodLabel.font = moodLabel.font.fontWithSize(12)
-        dateLabel.font = dateLabel.font.fontWithSize(10)
+        dateLabel.font = dateLabel.font.fontWithSize(12)
         descLabel.font = descLabel.font.fontWithSize(12)
         descLabel.numberOfLines = 0
 
@@ -42,24 +48,30 @@ class FeedTableViewCell: UITableViewCell {
         separator.backgroundColor = UIColor.lightGrayColor()
 
         // layout
+        avatarView.translatesAutoresizingMaskIntoConstraints = false
+        avatarView.topAnchor.constraintEqualToAnchor(contentView.topAnchor, constant: 3).active = true
+        avatarView.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+        avatarView.widthAnchor.constraintEqualToConstant(48).active = true
+        avatarView.heightAnchor.constraintEqualToConstant(48).active = true
+
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.topAnchor.constraintEqualToAnchor(contentView.topAnchor).active = true
-        nameLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+        nameLabel.topAnchor.constraintEqualToAnchor(avatarView.topAnchor).active = true
+        nameLabel.leftAnchor.constraintEqualToAnchor(avatarView.rightAnchor, constant: 3).active = true
 
         sportLabel.translatesAutoresizingMaskIntoConstraints = false
         sportLabel.topAnchor.constraintEqualToAnchor(nameLabel.bottomAnchor, constant: 1).active = true
-        sportLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+        sportLabel.leftAnchor.constraintEqualToAnchor(avatarView.rightAnchor, constant: 3).active = true
 
         moodLabel.translatesAutoresizingMaskIntoConstraints = false
         moodLabel.centerYAnchor.constraintEqualToAnchor(sportLabel.centerYAnchor).active = true
         moodLabel.leftAnchor.constraintEqualToAnchor(sportLabel.rightAnchor, constant: 3).active = true
 
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.topAnchor.constraintEqualToAnchor(sportLabel.bottomAnchor).active = true
-        dateLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+        dateLabel.topAnchor.constraintEqualToAnchor(sportLabel.bottomAnchor, constant: 1).active = true
+        dateLabel.leftAnchor.constraintEqualToAnchor(avatarView.rightAnchor, constant: 3).active = true
 
         descLabel.translatesAutoresizingMaskIntoConstraints = false
-        descLabel.topAnchor.constraintEqualToAnchor(dateLabel.bottomAnchor, constant: 1).active = true
+        descLabel.topAnchor.constraintEqualToAnchor(avatarView.bottomAnchor, constant: 3).active = true
         descLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
         descLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: 3).active = true
 
