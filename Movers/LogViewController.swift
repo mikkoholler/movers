@@ -113,7 +113,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         let cell = tableView.dequeueReusableCellWithIdentifier("feedcell") as! FeedTableViewCell        // could also be done without reuse
         let row = indexPath.row
 
-        cell.titleLabel.text = logs[row].title
+        cell.descLabel.text = logs[row].title
         cell.dateLabel.text = logs[row].date
         cell.sportLabel.text = logs[row].sport
         cell.nameLabel.text = logs[row].name

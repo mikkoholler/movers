@@ -62,7 +62,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         
         let row = indexPath.row
         
-        cell.titleLabel.text = notifications[row].title
+        cell.descLabel.text = notifications[row].title
         cell.nameLabel.text = notifications[row].name
         return cell
     }

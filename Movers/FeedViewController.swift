@@ -85,14 +85,15 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         feedTableView.backgroundColor = UIColor.whiteColor()
         feedTableView.separatorStyle = .None
-        feedTableView.rowHeight = 75
+        feedTableView.rowHeight = UITableViewAutomaticDimension
+        feedTableView.estimatedRowHeight = 75
         feedTableView.allowsSelection = false
         
         feedTableView.translatesAutoresizingMaskIntoConstraints = false
         feedTableView.topAnchor.constraintEqualToAnchor(weightInputView.bottomAnchor, constant: 10).active = true
         feedTableView.leftAnchor.constraintEqualToAnchor(view.leftAnchor).active = true
         feedTableView.rightAnchor.constraintEqualToAnchor(view.rightAnchor).active = true
-        feedTableView.heightAnchor.constraintEqualToConstant(1000).active = true
+        feedTableView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -49).active = true   // tab bar height
 
         healthHandler.authorizeHealthKit()
     }
@@ -210,7 +211,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCellWithIdentifier("feedcell") as! FeedTableViewCell        // could also be done without reuse
         let row = indexPath.row
 
-        cell.titleLabel.text = feed[row].title
+        cell.descLabel.text = feed[row].desc
         cell.dateLabel.text = feed[row].date
         cell.sportLabel.text = feed[row].sport
         cell.nameLabel.text = feed[row].name
