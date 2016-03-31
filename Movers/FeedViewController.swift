@@ -248,7 +248,18 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else {
             cell.avatarView.image = UIImage()
         }
-        
+
+        if (feed[row].cheercount == 0) {
+            cell.cheerLabel.text = ""
+        } else {
+            cell.cheerLabel.text = "\u{1F44A} \(feed[row].cheercount)"
+        }
+
+        if (feed[row].commentcount == 0) {
+            cell.commentLabel.text = ""
+        } else {
+            cell.commentLabel.text = "\u{1F4AC} \(feed[row].commentcount)"
+        }
         
         return cell
     }

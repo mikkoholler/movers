@@ -54,6 +54,7 @@ class HeiaHandler {
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
                 do {
                     if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
+                        // print(jsonObject)
                         feed = jsonObject
                             .filter { $0["kind"] as! String != "TextEntry" }
                             .map { (let item) -> FeedItem in
@@ -225,6 +226,12 @@ class HeiaHandler {
             }
             if let mood = entry["mood"] as? Int {
                 feeditem.mood = mood
+            }
+            if let commentcount = entry["comments_count"] as? Int {
+                feeditem.commentcount = commentcount
+            }
+            if let cheercount = entry["cheers_count"] as? Int {
+                feeditem.cheercount = cheercount
             }
             if let user = entry["user"] as? [String:AnyObject] {
                 if let firstname = user["first_name"] as? String {

@@ -16,6 +16,8 @@ class FeedTableViewCell: UITableViewCell {
     var dateLabel = UILabel()
     var moodLabel = UILabel()
     var descLabel = UILabel()
+    var cheerLabel = UILabel()
+    var commentLabel = UILabel()
     
     var weightLabel = UILabel()
     var separator = UIView()
@@ -29,6 +31,8 @@ class FeedTableViewCell: UITableViewCell {
         contentView.addSubview(dateLabel)
         contentView.addSubview(moodLabel)
         contentView.addSubview(descLabel)
+        contentView.addSubview(cheerLabel)
+        contentView.addSubview(commentLabel)
         contentView.addSubview(weightLabel)
         contentView.addSubview(separator)
         
@@ -43,6 +47,8 @@ class FeedTableViewCell: UITableViewCell {
         dateLabel.font = dateLabel.font.fontWithSize(12)
         descLabel.font = descLabel.font.fontWithSize(12)
         descLabel.numberOfLines = 0
+        cheerLabel.font = cheerLabel.font.fontWithSize(12)
+        commentLabel.font = cheerLabel.font.fontWithSize(12)
 
         weightLabel.font = weightLabel.font.fontWithSize(24)
         separator.backgroundColor = UIColor.lightGrayColor()
@@ -75,12 +81,20 @@ class FeedTableViewCell: UITableViewCell {
         descLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
         descLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: -3).active = true
 
+        cheerLabel.translatesAutoresizingMaskIntoConstraints = false
+        cheerLabel.topAnchor.constraintEqualToAnchor(descLabel.bottomAnchor).active = true
+        cheerLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+
+        commentLabel.translatesAutoresizingMaskIntoConstraints = false
+        commentLabel.topAnchor.constraintEqualToAnchor(cheerLabel.bottomAnchor).active = true
+        commentLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
         weightLabel.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor).active = true
         weightLabel.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor).active = true
 
         separator.translatesAutoresizingMaskIntoConstraints = false
-        separator.topAnchor.constraintEqualToAnchor(descLabel.bottomAnchor, constant: 2).active = true
+        separator.topAnchor.constraintEqualToAnchor(commentLabel.bottomAnchor, constant: 3).active = true
         separator.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor).active = true
         separator.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor).active = true
         separator.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor).active = true
