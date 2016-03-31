@@ -48,6 +48,7 @@ class FeedTableViewCell: UITableViewCell {
         descLabel.font = descLabel.font.fontWithSize(12)
         descLabel.numberOfLines = 0
         cheerLabel.font = cheerLabel.font.fontWithSize(12)
+        cheerLabel.numberOfLines = 0
         commentLabel.font = cheerLabel.font.fontWithSize(12)
 
         weightLabel.font = weightLabel.font.fontWithSize(24)
@@ -84,6 +85,7 @@ class FeedTableViewCell: UITableViewCell {
         cheerLabel.translatesAutoresizingMaskIntoConstraints = false
         cheerLabel.topAnchor.constraintEqualToAnchor(descLabel.bottomAnchor).active = true
         cheerLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+        cheerLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: -3).active = true
 
         commentLabel.translatesAutoresizingMaskIntoConstraints = false
         commentLabel.topAnchor.constraintEqualToAnchor(cheerLabel.bottomAnchor).active = true

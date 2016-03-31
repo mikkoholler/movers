@@ -166,7 +166,7 @@ class HeiaHandler {
         
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
             do {
-                if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
+                if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? Array<[String:AnyObject]> {
                     rows = jsonObject.count
                     days = jsonObject
                         .filter { (let item) -> Bool in
@@ -232,6 +232,23 @@ class HeiaHandler {
             }
             if let cheercount = entry["cheers_count"] as? Int {
                 feeditem.cheercount = cheercount
+            }
+            
+            if let cheers = entry["latest_cheers"] as? [[String:AnyObject]] {
+                for (i, cheer) in cheers.enumerate() {
+                    if let user = cheer["user"] as? [String:AnyObject] {
+                        if let firstname = user["first_name"] as? String {
+                            if let lastname = user["last_name"] as? String {
+                                feeditem.cheeredby += firstname + " " + lastname
+                                if (i < cheers.count-1) {
+                                    feeditem.cheeredby += ", "
+                                } else if (i < feeditem.cheercount - 1) {
+                                    feeditem.cheeredby += " + \(feeditem.cheercount - i - 1)"
+                                }
+                            }
+                        }
+                    }
+                }
             }
             if let user = entry["user"] as? [String:AnyObject] {
                 if let firstname = user["first_name"] as? String {

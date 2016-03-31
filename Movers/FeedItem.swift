@@ -22,5 +22,6 @@ struct FeedItem {
     var avatarurl = String()
     var avatar = UIImage()
     var commentcount = Int()
+    var cheeredby = String()
     var cheercount = Int()
 }

@@ -252,7 +252,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (feed[row].cheercount == 0) {
             cell.cheerLabel.text = ""
         } else {
-            cell.cheerLabel.text = "\u{1F44A} \(feed[row].cheercount)"
+            cell.cheerLabel.text = "\u{1F44A} \(feed[row].cheeredby)"
         }
 
         if (feed[row].commentcount == 0) {
