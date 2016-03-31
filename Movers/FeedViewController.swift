@@ -211,7 +211,11 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCellWithIdentifier("feedcell") as! FeedTableViewCell        // could also be done without reuse
         let row = indexPath.row
 
-        cell.descLabel.text = feed[row].desc
+        if (!feed[row].desc.isEmpty) {
+            cell.descLabel.text = feed[row].title + " " + feed[row].desc
+        } else {
+            cell.descLabel.text = ""
+        }
         cell.dateLabel.text = feed[row].date
         cell.sportLabel.text = feed[row].sport
         cell.nameLabel.text = feed[row].name
@@ -229,12 +233,22 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else {
             cell.weightLabel.text = ""
         }
+
+        // handle empty avatar url
+        if (!feed[row].avatarurl.isEmpty) {
+            let size = CGSize(width: 0, height: 0)
+            if (self.feed[row].avatar.size.width != size.width) {
+                cell.avatarView.image = self.feed[row].avatar
+            } else {
+                heiaHandler.fetchImage(self.feed[row].avatarurl, completion: { image in
+                    self.feed[row].avatar = image
+                    cell.avatarView.image = image
+                })
+            }
+        } else {
+            cell.avatarView.image = UIImage()
+        }
         
-        let avatarurl = feed[row].avatarurl
-        
-        heiaHandler.fetchImage(NSURL(string: avatarurl)!, completion: { image in
-            cell.avatarView.image = image
-        })
         
         return cell
     }

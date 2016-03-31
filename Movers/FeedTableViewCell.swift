@@ -73,7 +73,7 @@ class FeedTableViewCell: UITableViewCell {
         descLabel.translatesAutoresizingMaskIntoConstraints = false
         descLabel.topAnchor.constraintEqualToAnchor(avatarView.bottomAnchor, constant: 3).active = true
         descLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
-        descLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: 3).active = true
+        descLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: -3).active = true
 
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
         weightLabel.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor).active = true

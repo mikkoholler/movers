@@ -234,6 +234,7 @@ class HeiaHandler {
                 }
                 if let avatar = user["avatar_url"] as? String {
                     feeditem.avatarurl = avatar.stringByReplacingOccurrencesOfString("{size}", withString: "48x48")
+                    // should the image be fetched here?
                 }
 
             }
@@ -316,9 +317,29 @@ class HeiaHandler {
             task.resume()
         }
     }
+
+    func fetchImageForItem(item: FeedItem, completion: (UIImage) -> ()) {
+        let size = CGSize(width: 0, height: 0)
+        if (item.avatar.size.width != size.width) {
+            completion(item.avatar)
+        } else {
+            let task = NSURLSession.sharedSession().downloadTaskWithURL(NSURL(string: item.avatarurl)!) { (location, httpResponse, error) -> Void in
+                guard let location = location, let data = NSData(contentsOfURL: location) else {
+                    return
+                }
+                let image = UIImage(data: data)
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    completion(image!)
+                }
+            }
+            task.resume()
+        }
+    }
     
-    func fetchImage(url: NSURL, completion: (UIImage) -> ()) {
-        let task = NSURLSession.sharedSession().downloadTaskWithURL(url) { (location, httpResponse, error) -> Void in
+    
+    func fetchImage(urlstr: String, completion: (UIImage) -> ()) {
+        let task = NSURLSession.sharedSession().downloadTaskWithURL(NSURL(string: urlstr)!) { (location, httpResponse, error) -> Void in
             guard let location = location, let data = NSData(contentsOfURL: location) else {
                 return
             }
