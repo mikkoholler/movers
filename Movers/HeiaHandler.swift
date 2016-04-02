@@ -44,7 +44,7 @@ class HeiaHandler {
 
         login() { (token) in
             let request = NSMutableURLRequest()
-            let params = "direction=desc&per_page=20&access_token=\(token)"
+            let params = "direction=desc&per_page=100&access_token=\(token)"
             let components = NSURLComponents(string: "https://api.heiaheia.com/api/v2/feeds")
             components?.query = params
         
@@ -244,6 +244,22 @@ class HeiaHandler {
                                     feeditem.cheeredby += ", "
                                 } else if (i < feeditem.cheercount - 1) {
                                     feeditem.cheeredby += " + \(feeditem.cheercount - i - 1)"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if let comments = entry["latest_comments"] as? [[String:AnyObject]] {
+                for (i, comment) in comments.enumerate() {
+                    if let user = comment["user"] as? [String:AnyObject] {
+                        if let firstname = user["first_name"] as? String {
+                            if let lastname = user["last_name"] as? String {
+                                feeditem.commentedby += firstname + " " + lastname
+                                if (i < comments.count-1) {
+                                    feeditem.commentedby += ", "
+                                } else if (i < feeditem.commentcount - 1) {
+                                    feeditem.commentedby += " + \(feeditem.commentcount - i - 1)"
                                 }
                             }
                         }

@@ -258,7 +258,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (feed[row].commentcount == 0) {
             cell.commentLabel.text = ""
         } else {
-            cell.commentLabel.text = "\u{1F4AC} \(feed[row].commentcount)"
+            cell.commentLabel.text = "\u{1F4AC} \(feed[row].commentedby)"
         }
         
         return cell

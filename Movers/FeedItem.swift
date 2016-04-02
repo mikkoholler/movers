@@ -21,6 +21,7 @@ struct FeedItem {
     var weight = Double()
     var avatarurl = String()
     var avatar = UIImage()
+    var commentedby = String()
     var commentcount = Int()
     var cheeredby = String()
     var cheercount = Int()
