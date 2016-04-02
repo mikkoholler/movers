@@ -258,7 +258,15 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (feed[row].commentcount == 0) {
             cell.commentLabel.text = ""
         } else {
-            cell.commentLabel.text = "\u{1F4AC} \(feed[row].commentedby)"
+            var notes = ""
+            for (i, comment) in feed[row].comments.enumerate().reverse() {
+                notes += comment.name + ": " + comment.text
+                if (i > 0) {
+                    notes += "\n"
+                }
+            }
+            // moar than the latest?
+            cell.commentLabel.text = "\u{1F4AC}\n\(notes)"
         }
         
         return cell

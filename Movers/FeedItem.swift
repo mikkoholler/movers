@@ -23,6 +23,12 @@ struct FeedItem {
     var avatar = UIImage()
     var commentedby = String()
     var commentcount = Int()
+    var comments = [Comment]()
     var cheeredby = String()
     var cheercount = Int()
+}
+
+struct Comment {
+    var name = String()
+    var text = String()
 }

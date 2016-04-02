@@ -252,9 +252,14 @@ class HeiaHandler {
             }
             if let comments = entry["latest_comments"] as? [[String:AnyObject]] {
                 for (i, comment) in comments.enumerate() {
+                    var newcomment = Comment()
+                    if let notes = comment["notes"] as? String {
+                        newcomment.text = notes
+                    }
                     if let user = comment["user"] as? [String:AnyObject] {
                         if let firstname = user["first_name"] as? String {
                             if let lastname = user["last_name"] as? String {
+                                newcomment.name = firstname + " " + lastname
                                 feeditem.commentedby += firstname + " " + lastname
                                 if (i < comments.count-1) {
                                     feeditem.commentedby += ", "
@@ -264,6 +269,7 @@ class HeiaHandler {
                             }
                         }
                     }
+                    feeditem.comments.append(newcomment)
                 }
             }
             if let user = entry["user"] as? [String:AnyObject] {

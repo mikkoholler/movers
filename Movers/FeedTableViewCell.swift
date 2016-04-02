@@ -50,6 +50,7 @@ class FeedTableViewCell: UITableViewCell {
         cheerLabel.font = cheerLabel.font.fontWithSize(12)
         cheerLabel.numberOfLines = 0
         commentLabel.font = cheerLabel.font.fontWithSize(12)
+        commentLabel.numberOfLines = 0
 
         weightLabel.font = weightLabel.font.fontWithSize(24)
         separator.backgroundColor = UIColor.lightGrayColor()
@@ -90,7 +91,8 @@ class FeedTableViewCell: UITableViewCell {
         commentLabel.translatesAutoresizingMaskIntoConstraints = false
         commentLabel.topAnchor.constraintEqualToAnchor(cheerLabel.bottomAnchor).active = true
         commentLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
-
+        commentLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: -3).active = true
+        
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
         weightLabel.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor).active = true
         weightLabel.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor).active = true
