@@ -222,7 +222,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.nameLabel.text = feed[row].name
         
         var stars = ""
-        for (var i=0; i<feed[row].mood; i++) {
+        for _ in 0..<feed[row].mood {
             stars = stars + "\u{2B50}"
         }
         
