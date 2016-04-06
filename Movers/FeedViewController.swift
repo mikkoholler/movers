@@ -77,11 +77,11 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         // action
         weightLabel.userInteractionEnabled = true
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: "longPressed:")
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         longPressRecognizer.minimumPressDuration = 0.1
         weightLabel.addGestureRecognizer(longPressRecognizer)
 
-        weightButton.addTarget(self, action: "buttonPressed", forControlEvents: UIControlEvents.TouchUpInside)
+        weightButton.addTarget(self, action: #selector(buttonPressed), forControlEvents: UIControlEvents.TouchUpInside)
 
         feedTableView.backgroundColor = UIColor.whiteColor()
         feedTableView.separatorStyle = .None
