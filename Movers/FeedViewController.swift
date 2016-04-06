@@ -124,7 +124,6 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if (weights.count > 0) {
             weight = weights[0].kg
             weightLabel.text = String(format:"%.1f", weight)
-            feedTableView.reloadData()
             
             if (isToday(weights[0].date)) {
                 disableToday()
@@ -132,6 +131,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 enableToday()
             }
         }
+        feedTableView.reloadData()
     }
     
     func isToday(date: NSDate) -> Bool{
@@ -211,6 +211,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCellWithIdentifier("feedcell") as! FeedTableViewCell        // could also be done without reuse
         let row = indexPath.row
 
+        // TODO: title could be edited even if there's no desc
         if (!feed[row].desc.isEmpty) {
             cell.descLabel.text = feed[row].title + " " + feed[row].desc
         } else {
@@ -234,7 +235,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
             cell.weightLabel.text = ""
         }
 
-        // handle empty avatar url
+        // TODO: show empty avatar url
         if (!feed[row].avatarurl.isEmpty) {
             let size = CGSize(width: 0, height: 0)
             if (self.feed[row].avatar.size.width != size.width) {

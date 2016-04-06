@@ -54,7 +54,6 @@ class HeiaHandler {
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
                 do {
                     if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
-                        // print(jsonObject)
                         feed = jsonObject
                             .filter { $0["kind"] as! String != "TextEntry" }
                             .map { (let item) -> FeedItem in
