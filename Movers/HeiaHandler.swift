@@ -241,19 +241,24 @@ class HeiaHandler {
                         if let id = user["id"] as? Int {
                             if (userid == id) {
                                 feeditem.hasCheered = true
-                            }
-                        }
-                        if let firstname = user["first_name"] as? String {
-                            if let lastname = user["last_name"] as? String {
-                                feeditem.cheeredby += firstname + " " + lastname
-                                if (i < cheers.count-1) {
-                                    feeditem.cheeredby += ", "
-                                } else if (i < feeditem.cheercount - 1) {
-                                    feeditem.cheeredby += " + \(feeditem.cheercount - i - 1)"
+                                if (cheers.count == 1) {
+                                    feeditem.cheeredby = "You"
+                                } else {
+                                    feeditem.cheeredby = "You, \(feeditem.cheeredby)"
+                                }
+                            } else if let firstname = user["first_name"] as? String {
+                                if let lastname = user["last_name"] as? String {
+                                    feeditem.cheeredby += firstname + " " + lastname
+                                    if (i < cheers.count-1) {
+                                        feeditem.cheeredby += ", "
+                                    }
                                 }
                             }
                         }
                     }
+                }
+                if (cheers.count < feeditem.cheercount) {
+                    feeditem.cheeredby += " + \(feeditem.cheercount - cheers.count)"
                 }
             }
             if let comments = entry["latest_comments"] as? [[String:AnyObject]] {
