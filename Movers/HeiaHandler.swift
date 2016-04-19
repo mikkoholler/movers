@@ -207,15 +207,15 @@ class HeiaHandler {
         
     }
 
-    func parse(item: [String:AnyObject]) -> FeedItem {
+    func parse(item:[String:AnyObject]) -> FeedItem {
         var feeditem = FeedItem()
-        if let id = item["id"] as? Int {
-            feeditem.id = id
-        }
         if let type = item["kind"] as? String {
             feeditem.type = type
         }
         if let entry = item["entry"] as? [String:AnyObject] {
+            if let id = entry["id"] as? Int {
+                feeditem.id = id
+            }
             if let date = entry["date"] as? String {
                 feeditem.date = date
             }
@@ -235,14 +235,12 @@ class HeiaHandler {
                 feeditem.cheercount = cheercount
             }
             
-            // TODO: have I cheered already?
             if let cheers = entry["latest_cheers"] as? [[String:AnyObject]] {
                 for (i, cheer) in cheers.enumerate() {
                     if let user = cheer["user"] as? [String:AnyObject] {
                         if let id = user["id"] as? Int {
                             if (userid == id) {
                                 feeditem.hasCheered = true
-                                print("You have cheered already")
                             }
                         }
                         if let firstname = user["first_name"] as? String {
@@ -351,6 +349,46 @@ class HeiaHandler {
         return feeditem
     }
 
+    func cheerFor(id:Int) {
+        login() { (token) in
+            let params = "access_token=\(token)&cheer_type_id=111"
+            let request = NSMutableURLRequest()
+            request.HTTPMethod = "POST"
+            request.HTTPBody = params.dataUsingEncoding(NSUTF8StringEncoding)
+            request.URL = NSURL(string: "https://api.heiaheia.com/v2/training_logs/\(id)/cheers")
+ 
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+                print(response)
+            }
+            task.resume()
+        }
+    }
+    
+    // for testing. maybe need laetr?
+    func getCheerTypes() {
+        login() { (token) in
+            let request = NSMutableURLRequest()
+            let params = "access_token=\(token)"
+            let components = NSURLComponents(string: "https://api.heiaheia.com/v2/cheer_types")
+            components?.query = params
+        
+            request.HTTPMethod = "GET"
+            request.URL = components?.URL
+        
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+                do {
+                    if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? Array<[String:AnyObject]> {
+                        print(jsonObject)
+                    }
+                } catch let e {
+                    print(e)
+                }
+
+            }
+            task.resume()
+        }
+    }
+
     func saveWeight(date:NSDate, weight:Double) {
         login() { (token) in
             let dateFormatter = NSDateFormatter()
@@ -363,7 +401,6 @@ class HeiaHandler {
             request.HTTPMethod = "POST"
             request.HTTPBody = params.dataUsingEncoding(NSUTF8StringEncoding)
             request.URL = NSURL(string: "https://api.heiaheia.com/v2/weights")
-            print(params)
  
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
                 print(response)

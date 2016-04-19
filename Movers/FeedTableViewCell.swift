@@ -11,6 +11,7 @@ import UIKit
 class FeedTableViewCell: UITableViewCell {
 
     var feedid = Int()
+    var hasCheered = Bool()
     var avatarView = UIImageView()
     var nameLabel = UILabel()
     var sportLabel = UILabel()
@@ -60,8 +61,6 @@ class FeedTableViewCell: UITableViewCell {
 
         weightLabel.font = weightLabel.font.fontWithSize(24)
         separator.backgroundColor = UIColor.lightGrayColor()
-
-        actionLabel.text = "Double tap to cheer"
 
         // layout
         avatarView.translatesAutoresizingMaskIntoConstraints = false

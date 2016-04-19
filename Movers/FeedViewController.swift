@@ -196,8 +196,10 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let indexPath = feedTableView.indexPathForRowAtPoint(point)
         let cell = feedTableView.cellForRowAtIndexPath(indexPath!) as! FeedTableViewCell
 
-        // update UI
-        // send to Heia
+        if (!cell.hasCheered) {
+            // update UI
+            heiaHandler.cheerFor(cell.feedid)
+        }
         print("Tapped twice at row with id \(cell.feedid)")
         
     }
@@ -229,6 +231,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let row = indexPath.row
 
         cell.feedid = feed[row].id
+        cell.hasCheered = feed[row].hasCheered
 
         // TODO: title could be edited even if there's no desc
         if (!feed[row].desc.isEmpty) {
@@ -270,9 +273,9 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
 
         if (feed[row].hasCheered) {
-            cell.actionLabel.hidden = true
+            cell.actionLabel.text = "You cheered for this"
         } else {
-            cell.actionLabel.hidden = false
+            cell.actionLabel.text = "Double tap to cheer"
         }
 
         if (feed[row].cheercount == 0) {
