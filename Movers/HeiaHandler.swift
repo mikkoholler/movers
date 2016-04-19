@@ -11,6 +11,8 @@ import UIKit
 
 class HeiaHandler {
     
+    var userid = 28811619755    // this is mine
+    
     init() {
     }
     
@@ -233,9 +235,16 @@ class HeiaHandler {
                 feeditem.cheercount = cheercount
             }
             
+            // TODO: have I cheered already?
             if let cheers = entry["latest_cheers"] as? [[String:AnyObject]] {
                 for (i, cheer) in cheers.enumerate() {
                     if let user = cheer["user"] as? [String:AnyObject] {
+                        if let id = user["id"] as? Int {
+                            if (userid == id) {
+                                feeditem.hasCheered = true
+                                print("You have cheered already")
+                            }
+                        }
                         if let firstname = user["first_name"] as? String {
                             if let lastname = user["last_name"] as? String {
                                 feeditem.cheeredby += firstname + " " + lastname

@@ -26,6 +26,7 @@ struct FeedItem {
     var comments = [Comment]()
     var cheeredby = String()
     var cheercount = Int()
+    var hasCheered = false
 }
 
 struct Comment {

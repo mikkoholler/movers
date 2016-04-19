@@ -10,12 +10,14 @@ import UIKit
 
 class FeedTableViewCell: UITableViewCell {
 
+    var feedid = Int()
     var avatarView = UIImageView()
     var nameLabel = UILabel()
     var sportLabel = UILabel()
     var dateLabel = UILabel()
     var moodLabel = UILabel()
     var descLabel = UILabel()
+    var actionLabel = UILabel()
     var cheerLabel = UILabel()
     var commentLabel = UILabel()
     
@@ -31,6 +33,7 @@ class FeedTableViewCell: UITableViewCell {
         contentView.addSubview(dateLabel)
         contentView.addSubview(moodLabel)
         contentView.addSubview(descLabel)
+        contentView.addSubview(actionLabel)
         contentView.addSubview(cheerLabel)
         contentView.addSubview(commentLabel)
         contentView.addSubview(weightLabel)
@@ -47,6 +50,9 @@ class FeedTableViewCell: UITableViewCell {
         dateLabel.font = dateLabel.font.fontWithSize(12)
         descLabel.font = descLabel.font.fontWithSize(12)
         descLabel.numberOfLines = 0
+        actionLabel.font = .boldSystemFontOfSize(12)
+        actionLabel.textColor = .darkGrayColor()
+
         cheerLabel.font = cheerLabel.font.fontWithSize(12)
         cheerLabel.numberOfLines = 0
         commentLabel.font = cheerLabel.font.fontWithSize(12)
@@ -54,6 +60,8 @@ class FeedTableViewCell: UITableViewCell {
 
         weightLabel.font = weightLabel.font.fontWithSize(24)
         separator.backgroundColor = UIColor.lightGrayColor()
+
+        actionLabel.text = "Double tap to cheer"
 
         // layout
         avatarView.translatesAutoresizingMaskIntoConstraints = false
@@ -83,8 +91,13 @@ class FeedTableViewCell: UITableViewCell {
         descLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
         descLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: -3).active = true
 
+        actionLabel.translatesAutoresizingMaskIntoConstraints = false
+        actionLabel.topAnchor.constraintEqualToAnchor(descLabel.bottomAnchor, constant: 3).active = true
+        actionLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+        actionLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: -3).active = true
+
         cheerLabel.translatesAutoresizingMaskIntoConstraints = false
-        cheerLabel.topAnchor.constraintEqualToAnchor(descLabel.bottomAnchor).active = true
+        cheerLabel.topAnchor.constraintEqualToAnchor(actionLabel.bottomAnchor).active = true
         cheerLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
         cheerLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: -3).active = true
 

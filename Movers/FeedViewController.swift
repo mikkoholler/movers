@@ -82,6 +82,11 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         weightLabel.addGestureRecognizer(longPressRecognizer)
 
         weightButton.addTarget(self, action: #selector(buttonPressed), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        let doubleTap = UITapGestureRecognizer(target:self, action: #selector(doubleTap(_:)))
+        doubleTap.numberOfTapsRequired = 2
+        doubleTap.numberOfTouchesRequired = 1
+        feedTableView.addGestureRecognizer(doubleTap)
 
         feedTableView.backgroundColor = UIColor.whiteColor()
         feedTableView.separatorStyle = .None
@@ -185,6 +190,18 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    func doubleTap(sender: UITapGestureRecognizer) {
+        
+        let point = sender.locationInView(sender.view)
+        let indexPath = feedTableView.indexPathForRowAtPoint(point)
+        let cell = feedTableView.cellForRowAtIndexPath(indexPath!) as! FeedTableViewCell
+
+        // update UI
+        // send to Heia
+        print("Tapped twice at row with id \(cell.feedid)")
+        
+    }
+
     func buttonPressed() {
         let adddate = NSDate()
         let addweight = Double(weightLabel.text!)!              // what is this sorcery?
@@ -210,6 +227,8 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("feedcell") as! FeedTableViewCell        // could also be done without reuse
         let row = indexPath.row
+
+        cell.feedid = feed[row].id
 
         // TODO: title could be edited even if there's no desc
         if (!feed[row].desc.isEmpty) {
@@ -248,6 +267,12 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
         } else {
             cell.avatarView.image = UIImage()
+        }
+
+        if (feed[row].hasCheered) {
+            cell.actionLabel.hidden = true
+        } else {
+            cell.actionLabel.hidden = false
         }
 
         if (feed[row].cheercount == 0) {
