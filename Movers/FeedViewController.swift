@@ -197,11 +197,27 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = feedTableView.cellForRowAtIndexPath(indexPath!) as! FeedTableViewCell
 
         if (!cell.hasCheered) {
-            // update UI
             heiaHandler.cheerFor(cell.feedid)
+
+            let row = indexPath!.row
+            feed[row].cheercount += 1
+            feed[row].hasCheered = true
+            if (feed[row].cheercount == 1) {
+                feed[row].cheeredby = "You"
+            } else {
+                feed[row].cheeredby = "You, \(feed[row].cheeredby)"
+            }
+            
+            feedTableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
         }
-        print("Tapped twice at row with id \(cell.feedid)")
-        
+    }
+
+    func showCheer(cell:FeedTableViewCell) {
+        if (!cell.cheerLabel.text!.isEmpty) {
+            cell.cheerLabel.text = "You, " + cell.cheerLabel.text!
+        } else {
+            cell.cheerLabel.text = "You"
+        }
     }
 
     func buttonPressed() {
