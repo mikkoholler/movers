@@ -20,19 +20,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         notifications.setNotifications()
         
         let feedvc = FeedViewController()
-        feedvc.tabBarItem = UITabBarItem(title: "Feed" , image: nil, tag: 0)
+        feedvc.tabBarItem = UITabBarItem(title: "Feed" , image: UIImage(named: "icon-list"), tag: 0)
         feedvc.getData()
         
         let logvc = LogViewController()
-        logvc.tabBarItem = UITabBarItem(title: "Log" , image: nil, tag: 0)
+        logvc.tabBarItem = UITabBarItem(title: "Log" , image: UIImage(named: "icon-logbook"), tag: 0)
         logvc.getData()
         
         let notificationvc = NotificationViewController()
-        notificationvc.tabBarItem = UITabBarItem(title: "Notifications" , image: nil, tag: 0)
+        notificationvc.tabBarItem = UITabBarItem(title: "Notifications" , image: UIImage(named: "icon-notifications"), tag: 0)
         notificationvc.getData()
         
         let settingsvc = SettingsViewController()
-        settingsvc.tabBarItem = UITabBarItem(title: "Settings" , image: nil, tag: 0)
+        settingsvc.tabBarItem = UITabBarItem(title: "Settings" , image: UIImage(named: "icon-settings"), tag: 0)
 
         let tabs = UITabBarController()
         tabs.viewControllers = [feedvc, logvc, notificationvc, settingsvc]

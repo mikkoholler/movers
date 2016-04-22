@@ -25,6 +25,8 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var healthHandler = HealthHandler()
     var heiaHandler = HeiaHandler()
     
+    var activeText = UITextField()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -100,7 +102,10 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         feedTableView.rightAnchor.constraintEqualToAnchor(view.rightAnchor).active = true
         feedTableView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -49).active = true   // tab bar height
 
-        healthHandler.authorizeHealthKit()
+        healthHandler.authorizeHealthKit()        
+    }
+    
+    func keyboardWillHide(note: NSNotification) {
     }
     
     override func viewWillAppear(animated: Bool) {
