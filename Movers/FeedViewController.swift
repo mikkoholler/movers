@@ -334,7 +334,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         feedTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
 
-        // add to Heia
+        heiaHandler.addComment(feed[row].id, comment: newcomment.text)
     }
 
     func dateString(date: NSDate) -> String {

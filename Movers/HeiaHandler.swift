@@ -370,6 +370,21 @@ class HeiaHandler {
         }
     }
     
+    func addComment(id:Int, comment:String) {
+        login() { (token) in
+            let params = "access_token=\(token)&notes=\(comment)"
+            let request = NSMutableURLRequest()
+            request.HTTPMethod = "POST"
+            request.HTTPBody = params.dataUsingEncoding(NSUTF8StringEncoding)
+            request.URL = NSURL(string: "https://api.heiaheia.com/v2/training_logs/\(id)/comments")
+ 
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+                print(response)
+            }
+            task.resume()
+        }
+    }
+    
     // for testing. maybe need laetr?
     func getCheerTypes() {
         login() { (token) in
