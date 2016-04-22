@@ -314,7 +314,27 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
             cell.commentLabel.text = "\u{1F4AC}\n\(notes)"
         }
         
+        cell.commentButton.tag = row
+        cell.commentButton.addTarget(self, action: #selector(addComment(_:)), forControlEvents: .TouchUpInside)
+        
         return cell
+    }
+
+    func addComment(sender: UIButton) {
+        let row = sender.tag
+        let indexPath = NSIndexPath(forRow:row, inSection:0)
+        let cell = feedTableView.cellForRowAtIndexPath(indexPath) as! FeedTableViewCell
+
+        let newcomment = Comment(name: "You", text: cell.commentTextField.text!)
+        feed[row].commentcount += 1
+        feed[row].commentedby = "You, " + feed[row].commentedby
+        feed[row].comments.insert(newcomment, atIndex: 0)
+        
+        cell.commentTextField.text = ""
+        
+        feedTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+
+        // add to Heia
     }
 
     func dateString(date: NSDate) -> String {

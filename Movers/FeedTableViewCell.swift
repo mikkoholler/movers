@@ -64,7 +64,7 @@ class FeedTableViewCell: UITableViewCell {
         commentLabel.numberOfLines = 0
 
         commentTextField.font = cheerLabel.font.fontWithSize(12)
-        commentTextField.textColor = .lightGrayColor()
+        commentTextField.textColor = .darkGrayColor()
         commentTextField.borderStyle = .RoundedRect
         
         weightLabel.font = weightLabel.font.fontWithSize(24)
