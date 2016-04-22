@@ -21,6 +21,8 @@ class FeedTableViewCell: UITableViewCell {
     var actionLabel = UILabel()
     var cheerLabel = UILabel()
     var commentLabel = UILabel()
+    var commentTextField = UITextField()
+    var commentButton = UIButton(type: .ContactAdd)
     
     var weightLabel = UILabel()
     var separator = UIView()
@@ -37,6 +39,8 @@ class FeedTableViewCell: UITableViewCell {
         contentView.addSubview(actionLabel)
         contentView.addSubview(cheerLabel)
         contentView.addSubview(commentLabel)
+        contentView.addSubview(commentTextField)
+        contentView.addSubview(commentButton)
         contentView.addSubview(weightLabel)
         contentView.addSubview(separator)
         
@@ -59,6 +63,10 @@ class FeedTableViewCell: UITableViewCell {
         commentLabel.font = cheerLabel.font.fontWithSize(12)
         commentLabel.numberOfLines = 0
 
+        commentTextField.font = cheerLabel.font.fontWithSize(12)
+        commentTextField.textColor = .lightGrayColor()
+        commentTextField.borderStyle = .RoundedRect
+        
         weightLabel.font = weightLabel.font.fontWithSize(24)
         separator.backgroundColor = UIColor.lightGrayColor()
 
@@ -105,12 +113,21 @@ class FeedTableViewCell: UITableViewCell {
         commentLabel.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
         commentLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: -3).active = true
         
+        commentTextField.translatesAutoresizingMaskIntoConstraints = false
+        commentTextField.topAnchor.constraintEqualToAnchor(commentLabel.bottomAnchor, constant: 3).active = true
+        commentTextField.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 3).active = true
+        
+        commentButton.translatesAutoresizingMaskIntoConstraints = false
+        commentButton.centerYAnchor.constraintEqualToAnchor(commentTextField.centerYAnchor).active = true
+        commentButton.leftAnchor.constraintEqualToAnchor(commentTextField.rightAnchor, constant: 6).active = true
+        commentButton.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: -6).active = true
+        
         weightLabel.translatesAutoresizingMaskIntoConstraints = false
         weightLabel.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor).active = true
         weightLabel.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor).active = true
 
         separator.translatesAutoresizingMaskIntoConstraints = false
-        separator.topAnchor.constraintEqualToAnchor(commentLabel.bottomAnchor, constant: 3).active = true
+        separator.topAnchor.constraintEqualToAnchor(commentTextField.bottomAnchor, constant: 3).active = true
         separator.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor).active = true
         separator.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor).active = true
         separator.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor).active = true

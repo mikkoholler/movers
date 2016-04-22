@@ -28,6 +28,7 @@ class HeiaHandler {
         
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
             do {
+                // TODO: crashes with no internets
                 if let jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? [String:AnyObject] {
                     NSOperationQueue.mainQueue().addOperationWithBlock {
                         token = jsonObject["access_token"] as? String
