@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         notifications.setNotifications()
         
         let feedvc = FeedViewController()
-        feedvc.tabBarItem = UITabBarItem(title: "Feed" , image: UIImage(named: "icon-list"), tag: 0)
+        feedvc.tabBarItem = UITabBarItem(title: "Feed" , image: UIImage(named: "icon-star"), tag: 0)
         feedvc.getData()
         
         let logvc = LogViewController()
