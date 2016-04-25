@@ -85,11 +85,6 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         weightButton.addTarget(self, action: #selector(buttonPressed), forControlEvents: UIControlEvents.TouchUpInside)
         
-        let doubleTap = UITapGestureRecognizer(target:self, action: #selector(doubleTap(_:)))
-        doubleTap.numberOfTapsRequired = 2
-        doubleTap.numberOfTouchesRequired = 1
-        feedTableView.addGestureRecognizer(doubleTap)
-
         feedTableView.backgroundColor = UIColor.whiteColor()
         feedTableView.separatorStyle = .None
         feedTableView.rowHeight = UITableViewAutomaticDimension
@@ -102,7 +97,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         feedTableView.rightAnchor.constraintEqualToAnchor(view.rightAnchor).active = true
         feedTableView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -49).active = true   // tab bar height
 
-        healthHandler.authorizeHealthKit()        
+        healthHandler.authorizeHealthKit()
     }
     
     func keyboardWillHide(note: NSNotification) {
@@ -195,36 +190,6 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
-    func doubleTap(sender: UITapGestureRecognizer) {
-        
-        let point = sender.locationInView(sender.view)
-        let indexPath = feedTableView.indexPathForRowAtPoint(point)
-        let cell = feedTableView.cellForRowAtIndexPath(indexPath!) as! FeedTableViewCell
-
-        if (!cell.hasCheered) {
-            heiaHandler.cheerFor(cell.feedid)
-
-            let row = indexPath!.row
-            feed[row].cheercount += 1
-            feed[row].hasCheered = true
-            if (feed[row].cheercount == 1) {
-                feed[row].cheeredby = "You"
-            } else {
-                feed[row].cheeredby = "You, \(feed[row].cheeredby)"
-            }
-            
-            feedTableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-        }
-    }
-
-    func showCheer(cell:FeedTableViewCell) {
-        if (!cell.cheerLabel.text!.isEmpty) {
-            cell.cheerLabel.text = "You, " + cell.cheerLabel.text!
-        } else {
-            cell.cheerLabel.text = "You"
-        }
-    }
-
     func buttonPressed() {
         let adddate = NSDate()
         let addweight = Double(weightLabel.text!)!              // what is this sorcery?
@@ -294,9 +259,9 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
 
         if (feed[row].hasCheered) {
-            cell.actionLabel.text = "You cheered for this"
+            cell.cheerButton.selected = true
         } else {
-            cell.actionLabel.text = "Double tap to cheer"
+            cell.cheerButton.selected = false
         }
 
         if (feed[row].cheercount == 0) {
@@ -321,6 +286,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         cell.commentButton.tag = row
         cell.commentButton.addTarget(self, action: #selector(addComment(_:)), forControlEvents: .TouchUpInside)
+        cell.cheerButton.addTarget(self, action: #selector(addCheer(_:)), forControlEvents: .TouchUpInside)
         
         return cell
     }
@@ -340,6 +306,27 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
         feedTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
 
         heiaHandler.addComment(feed[row].id, comment: newcomment.text)
+    }
+
+    func addCheer(sender: UIButton) {
+        let row = sender.tag
+        let indexPath = NSIndexPath(forRow:row, inSection:0)
+        let cell = feedTableView.cellForRowAtIndexPath(indexPath) as! FeedTableViewCell
+
+        if (!cell.hasCheered) {
+            heiaHandler.cheerFor(cell.feedid)
+
+            let row = indexPath.row
+            feed[row].cheercount += 1
+            feed[row].hasCheered = true
+            if (feed[row].cheercount == 1) {
+                feed[row].cheeredby = "You"
+            } else {
+                feed[row].cheeredby = "You, \(feed[row].cheeredby)"
+            }
+            
+            feedTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
     }
 
     func dateString(date: NSDate) -> String {
