@@ -58,6 +58,7 @@ class FeedTableViewCell: UITableViewCell {
 
         cheerButton.setImage(UIImage(named: "icon-cheer"), forState: .Normal)
         cheerButton.setImage(UIImage(named: "icon-cheered"), forState: .Selected)
+        cheerButton.setImage(UIImage(named: "icon-cheered"), forState: .Highlighted)
         
         cheerLabel.font = cheerLabel.font.fontWithSize(12)
         cheerLabel.numberOfLines = 0
